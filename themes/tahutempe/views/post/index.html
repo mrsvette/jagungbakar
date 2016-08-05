@@ -1,0 +1,57 @@
+{% if this.actionParams.tag %}
+<h1>Posts Tagged with <i>{{ C.Html.encode(this.actionParams.tag) }}</i></h1>
+{% else %}
+<div class="hero-box hero-box-smaller full-bg-13 font-inverse" data-top-bottom="background-position: 50% 0px;" data-bottom-top="background-position: 50% -600px;">
+    <div class="container">
+        <h1 class="hero-heading wow fadeInDown" data-wow-duration="0.6s">{{ category.category_name }}</h1>
+        <p class="hero-text wow bounceInUp" data-wow-duration="0.9s" data-wow-delay="0.2s">{{ category.notes }}</p>
+    </div>
+    <div class="hero-overlay bg-black"></div>
+</div>
+{% endif %}
+<div id="page-content" class="container mrg25T">
+    <div class="row">
+        <div class="col-md-9" id="content-frame">
+            {{ void(this.widget('zii.widgets.CListView', {
+				'dataProvider':dataProvider,
+				'itemView':'_view',
+				'template':"{items}\n{pager}",
+				'itemsCssClass':'row-fluid',
+			})) }}
+		</div>
+        <div class="col-md-3">
+            <div class="content-box">
+				<h3 class="content-box-header bg-default">
+					{{ call('Yii','t',{'0':'post','1':'Categories'}) }}
+				</h3>
+    			<div class="posts-list content-box-wrapper">
+				<ul class="">
+					{% for category in categories %}
+                    <li>
+						<div class="post-body">
+							{{ C.Html.link(category.category_name,{'0':'post/index','type':category.key}) |raw }}
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+    			</div>
+			</div>
+            <div class="content-box">
+				<h3 class="content-box-header bg-default">
+					{{ call('Yii','t',{'0':'post','1':'Latest Post'}) }}
+				</h3>
+    			<div class="posts-list content-box-wrapper">
+				<ul class="">
+					{% for idx, lpost in call('Post','getLatestPost') %}
+                	<li>
+						<div class="post-body">
+							{{ lpost.title | raw }}
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+    			</div>
+			</div>
+		</div>
+	</div>
+</div>

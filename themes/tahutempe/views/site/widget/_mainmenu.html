@@ -1,0 +1,14 @@
+{%
+	do this.widget('zii.widgets.CMenu', {
+		'id':'menu-main-menu',
+		'items':items,
+		'htmlOptions':{'class':'header-nav collapse'},
+		'submenuHtmlOptions':{'class':'dropdown','role':'menu'},
+		'activeCssClass':'active',
+		'encodeLabel':false,
+	})
+%}
+{{ void(App.clientScript.registerScript('customize', "
+	var menu=$('ul.dropdown').parent().find('a:first');
+	menu.append('<i class=\"glyph-icon icon-angle-down\"></i>');
+")) }}

@@ -1,0 +1,83 @@
+{% do this.setBreadcrumbs({
+    'Hoges': ['index'],
+    (model.id): {0: 'view', 'id': model.id},
+    0: 'View',
+}) %}
+
+<div class="hero-box hero-box-smaller full-bg-13 font-inverse" data-top-bottom="background-position: 50% 0px;" data-bottom-top="background-position: 50% -600px;">
+    <div class="container">
+        <h1 class="hero-heading wow fadeInDown" data-wow-duration="0.6s">{{ model.content_rel.title }}</h1>
+    </div>
+    <div class="hero-overlay bg-black"></div>
+</div>
+
+<div id="page-content" class="container mrg25T">
+    <div class="row">
+        <div class="col-md-9" id="content-frame">
+			{{ this.renderPartial('_view', {
+					'data':model,
+					'class':'blog-box-single',
+			}) }}
+			{% if model.commentCount>=1 %}
+			<div id="comments" class="blog-comments">
+				<h3 class="p-title title-alt">
+					<span>{% if model.commentCount>1 %} {{ model.commentCount ~ ' ' ~ call('Yii','t',['post','comments']) }} {% else %} {{ call('Yii','t',['post','One comment']) }} {% endif %}</span>
+				</h3>
+				{{ this.renderPartial('_comments',{
+					'post':model,
+					'comments':model.comments,
+				}) }}
+			</div>
+			{% endif %}  
+			{% if model.allow_comment %}
+			<div id="add-comment">
+				<h3 class="p-title title-alt">
+				<span>{{ call('Yii','t',['post','Leave a comment']) }}</span>
+				</h3>
+				{% if App.user.hasFlash('commentSubmitted') %}
+					<div class="alert alert-success">
+						<?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
+					</div>
+				{% endif %}
+				{{ this.renderPartial('_comment_form',{
+					'model':comment,
+				}) }}
+			</div>
+			{% endif %}
+		</div>
+		<div class="col-md-3">
+            <div class="content-box">
+				<h3 class="content-box-header bg-default">
+					{{ call('Yii','t',{'0':'post','1':'Categories'}) }}
+				</h3>
+    			<div class="posts-list content-box-wrapper">
+				<ul class="">
+					{% for category in categories %}
+                    <li>
+						<div class="post-body">
+							{{ C.Html.link(category.category_name,{'0':'post/index','type':category.key}) |raw }}
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+    			</div>
+			</div>
+            <div class="content-box">
+				<h3 class="content-box-header bg-default">
+					{{ call('Yii','t',{'0':'post','1':'Latest Post'}) }}
+				</h3>
+    			<div class="posts-list content-box-wrapper">
+				<ul class="">
+					{% for idx, lpost in call('Post','getLatestPost') %}
+                	<li>
+						<div class="post-body">
+							{{ lpost.title | raw }}
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+    			</div>
+			</div>
+		</div><!-- col-md-3 -->
+	</div><!-- end row -->
+</div><!-- end page-content -->

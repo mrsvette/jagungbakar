@@ -1,0 +1,17 @@
+{% set form=this.beginWidget('CActiveForm', {
+	'id':'comment-form',
+	'enableAjaxValidation':true,
+	'htmlOptions':{'class':'row','id':'comments_form'},
+}) %}
+	{{ form.errorSummary(model,null,null,{'class':'alert alert-warning alert-block alert-dismissable fade in'}) |raw }}
+
+	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+		{{ form.textField(model,'author',{'size':30,'maxlength':128,'placeholder':'Name','class':'form-control'}) |raw }}
+		{{ form.textField(model,'email',{'size':30,'maxlength':128,'placeholder':'Email','class':'form-control'}) |raw }}
+		{{ form.textField(model,'url',{'size':30,'maxlength':128,'placeholder':'Website','class':'form-control'}) |raw }}
+	</div>
+	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+		{{ form.textArea(model,'content',{'rows':3, 'cols':40,'placeholder':'Message','class':'form-control'}) |raw }}
+		{{ C.Html.submitButton(call('Yii','t',['global','Save']),{'style':'min-width:100px;','class':'btn btn-primary'}) |raw }}
+	</div>
+{{ void(this.endWidget()) }}

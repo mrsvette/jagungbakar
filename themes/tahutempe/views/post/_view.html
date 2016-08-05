@@ -1,0 +1,28 @@
+<div class="blog-box {{ class }} blog-box-alt row">
+	<div class="post-content-wrapper">
+		{{ C.Html.link('<h3>'~ C.Html.encode(data.content_rel.title)~'</h3>', data.url, {'class':'post-title'}) |raw }}
+		<div class="post-meta">
+			<span>
+				<i class="glyph-icon icon-user"></i>
+       			{{ data.author_rel.username }}
+   			</span>
+    		<span>
+               	<i class="glyph-icon icon-clock-o"></i>
+				{{ data.create_time | date("d M Y") }}
+  			</span>
+      		<span>
+         		<i class="glyph-icon icon-comments-o"></i>
+           		{% if data.allow_comment>0 %}
+				{{ C.Html.link(call('Yii','t',['post','Comments']) ~ " ("~ data.commentCount ~ ")",data.url~'#comments') |raw }} |
+				{% endif %}
+         	</span>
+     	</div>
+      	<div class="post-content">
+            {% if this.actionParams.id %}
+				{{ include(template_from_string(data.content_rel.content)) }}
+			{% else %}
+				{{ include(template_from_string(data.parseContent())) }}
+			{% endif %}
+       	</div>
+	</div>
+</div>

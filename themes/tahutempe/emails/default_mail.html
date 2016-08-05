@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Define Charset -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Responsive Meta Tag -->
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;" />
+
+    <title>{-sitename-} Email Notification</title><!-- Responsive Styles and Valid Styles -->
+	
+    <style type="text/css">
+	    body{
+            width: 100%; 
+            background-color: #f0f0f0; 
+            margin:0; 
+            padding:0; 
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        p,h1,h2,h3,h4{
+	        margin-top:0;
+			margin-bottom:0;
+			padding-top:0;
+			padding-bottom:0;
+        }
+        
+        span.preheader{display: none; font-size: 1px;}
+        
+        html{
+            width: 100%; 
+        }
+        
+        table{
+            font-size: 14px;
+            border: 0;
+        }
+        
+        /* ----------- responsivity ----------- */
+        @media only screen and (max-width: 640px){
+			/*------ top header ------ */
+			.view-online{font-size: 12px !important;}
+            .main-header{line-height: 28px !important; font-size: 17px !important;}
+            .main-subheader{line-height: 28px !important;}
+            
+			/*----- main image -------*/
+			.main-image{width: 440px !important; height: auto !important;}
+			
+			/*-------- container --------*/			
+			.container600{width: 440px !important;}
+			.container560{width: 400px !important;}
+			
+			/*-------- divider --------*/			
+			.divider{width: 440px !important; height: 1px !important;}
+			
+			/*----- banner -------*/
+			.banner{width: 400px !important; height: auto !important;}
+			/*-------- secions ----------*/
+			.section-item{width: 400px !important;}
+            .section-img{width: 400px !important; height: auto !important;}
+			           
+			/*-------- footer ------------*/
+			.unsubscribe{line-height: 26px !important; font-size: 13px !important;}
+			.copy{line-height: 26px !important; font-size: 14px !important;}
+			.hide-iphone{display: none !important;}
+			.vertical-spacing{width: 400px !important;}		
+			.footer-item{width: 200px !important;}
+		}
+		
+		@media only screen and (max-width: 479px){
+			
+			/*------ top header ------ */
+			.view-online{font-size: 12px !important;}
+            .main-header{line-height: 28px !important; font-size: 15px !important;}
+            .main-subheader{line-height: 28px !important;}
+            .logo{width: 280px !important;}
+            .nav{width: 280px !important;}
+			/*----- main image -------*/
+			.main-image{width: 280px !important; height: auto !important;}
+			
+			/*-------- container --------*/			
+			.container600{width: 280px !important;}
+			.container560{width: 240px !important;}
+			
+			/*-------- divider --------*/			
+			.divider{width: 280px !important; height: 1px !important;}
+			
+			/*----- banner -------*/
+			.banner{width: 240px !important; height: auto !important;}
+			/*-------- secions ----------*/
+			.section-item{width: 240px !important;}
+            .section-img{width: 240px !important; height: auto !important;}
+			           
+			/*-------- footer ------------*/
+			.unsubscribe{line-height: 26px !important; font-size: 13px !important;}
+			.copy{line-height: 26px !important; font-size: 14px !important;}
+			.hide-iphone{display: block !important;}
+			.vertical-spacing{width: 240px !important;}		
+			.footer-item{width: 240px !important;}
+		}
+	</style>
+</head>
+
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+	<table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="f0f0f0">
+	
+		<tr><td height="47"></td></tr>
+		
+		{-head-}
+		
+		<tr><td height="10"></td></tr>
+
+		<!------- 2columns ------->
+		<tr mc:repeatable>
+			<td align="center">
+				<table width="600" cellpadding="0" cellspacing="0" border="0" bgcolor="ffffff" class="container600">
+					<tr>
+						<td>
+							{-content-}
+						</td>	
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<!------- end 2columns ------->
+		
+		<tr mc:repeatable>
+			<td>
+				<table width="600" cellpadding="0" align="center" cellspacing="0" bgcolor="ffffff" border="0" class="container600">
+					<tr><td bgcolor="ffffff" height="45"></td></tr>
+				</table>
+			</td>
+		</tr>
+		<tr><td height="40"></td></tr>		
+		
+		{-foot-}
+	</table>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<ul class="comments-list">
+	{% for comment in comments %}
+	<li class="panel">
+		<div class="panel-body">
+			<div class="comment-image">
+				<img class="img-rounded lazy img-responsive" alt="" data-original="{{ App.request.baseUrl~'/uploads/images/avatar.jpg'}}" src="{{ App.request.baseUrl~'/uploads/images/avatar.jpg' }}" style="display: block;">
+			</div>
+			<div class="comment-wrapper">
+				<div class="comment-header clearfix">
+					<div class="float-left">
+						<div class="comment-author">
+							{{ comment.authorLink | raw }}
+						</div>
+						<div class="comment-date">
+							<i class="glyph-icon icon-clock-o"></i>
+							{{ comment.create_time | date('F j, Y \a\t h:i a') }}
+						</div>
+					</div>
+				</div>
+				<div class="comment-body">
+					<p>{{ C.Html.encode(comment.content) | nl2br }}</p>
+				</div>
+			</div>
+		</div><!-- panel-body -->
+	</li>
+	{% endfor %}
+</ul>
