@@ -1,0 +1,56 @@
+/*
+/*
+	Optional:
+	Reset list default style
+*/
+.pagination {
+	list-style:none;
+	height:20px;
+}
+
+/*
+	Optional:
+	Show the current slide in the pagination
+*/
+.pagination .current a {
+	color:red;
+}
+ul.pagination {
+	display:none;
+}		
+.pagination li {
+	float:left;
+	margin:2px 2px;
+}
+
+.pagination li a {
+	text-decoration:none;
+}
+
+.prev {
+	position:absolute;
+	top:70px;
+	left:-10px;
+	width:21px;
+	height:0;
+	padding-top:21px;
+	overflow:hidden;
+	display:block;
+	z-index:101;
+}
+
+.prev {
+	background:url(arrow-prev.png);
+}
+.next {
+	position:absolute;
+	top:70px;
+	width:21px;
+	height:0;
+	padding-top:21px;
+	overflow:hidden;
+	display:block;
+	z-index:101;
+	right:0px;
+	background:url(arrow-next.png);
+}

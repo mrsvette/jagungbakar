@@ -1,0 +1,670 @@
+-- phpMyAdmin SQL Dump
+-- version 4.1.6
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Mar 21, 2015 at 10:55 PM
+-- Server version: 5.6.16
+-- PHP Version: 5.5.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `jagung_bakar`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_banner`
+--
+
+CREATE TABLE IF NOT EXISTS `app_banner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  `key` varchar(128) NOT NULL,
+  `description` text,
+  `src` varchar(128) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `expired_date` datetime DEFAULT NULL,
+  `date_entry` datetime NOT NULL,
+  `user_entry` int(11) NOT NULL,
+  `date_update` datetime DEFAULT NULL,
+  `user_update` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `app_banner`
+--
+
+INSERT INTO `app_banner` (`id`, `name`, `key`, `description`, `src`, `url`, `expired_date`, `date_entry`, `user_entry`, `date_update`, `user_update`) VALUES
+(1, 'Banner 1', 'banner_1', '', 'uploads/images/banners/ad-block-leaderboard.png', '#', '0000-00-00 00:00:00', '2015-03-20 11:27:18', 1, NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_comment`
+--
+
+CREATE TABLE IF NOT EXISTS `app_comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL,
+  `create_time` int(11) DEFAULT NULL,
+  `author` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `url` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `post_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `app_comment`
+--
+
+INSERT INTO `app_comment` (`id`, `content`, `status`, `create_time`, `author`, `email`, `url`, `post_id`) VALUES
+(1, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus explicabo itaque doloribus nisi eos numquam cum praesentium aliquid autem nesciunt? ', 2, 1426927512, 'John Due', 'john@email.com', 'http://www.google.co.id', 37);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_gallery`
+--
+
+CREATE TABLE IF NOT EXISTS `app_gallery` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  `description` text,
+  `image` varchar(128) NOT NULL,
+  `thumb` varchar(128) DEFAULT NULL,
+  `src` varchar(128) NOT NULL,
+  `date_entry` datetime NOT NULL,
+  `user_entry` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_lookup`
+--
+
+CREATE TABLE IF NOT EXISTS `app_lookup` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `code` int(11) NOT NULL,
+  `type` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `position` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=54 ;
+
+--
+-- Dumping data for table `app_lookup`
+--
+
+INSERT INTO `app_lookup` (`id`, `name`, `code`, `type`, `position`) VALUES
+(1, 'Aktif', 0, 'MenuStatus', 1),
+(2, 'Tidak Aktif', 1, 'MenuStatus', 2),
+(3, 'Aktif', 1, 'UserStatus', 1),
+(4, 'TidakAktif', 0, 'UserStatus', 2),
+(7, 'Aktif', 1, 'MenuGroupStatus', 1),
+(8, 'Tidak Aktif', 0, 'MenuGroupStatus', 2),
+(9, 'All User', 0, 'VisibleMenu', 1),
+(10, 'Guest Only', 1, 'VisibleMenu', 2),
+(11, 'Member Only', 2, 'VisibleMenu', 3),
+(12, 'Married', 1, 'Marital', 1),
+(13, 'Single', 0, 'Marital', 2),
+(14, 'Moslem', 1, 'Religion', 1),
+(15, 'Christian', 2, 'Religion', 2),
+(16, 'Catholic', 3, 'Religion', 3),
+(17, 'Hindu', 4, 'Religion', 4),
+(18, 'Budhist', 5, 'Religion', 5),
+(28, 'Draft', 1, 'PostStatus', 1),
+(29, 'Published', 2, 'PostStatus', 2),
+(30, 'Archived', 3, 'PostStatus', 3),
+(31, 'True', 1, 'PostAllowComment', 1),
+(32, 'False', 0, 'PostAllowComment', 2),
+(38, 'APPROVED', 2, 'CommentStatus', 1),
+(39, 'PENDING', 1, 'CommentStatus', 2),
+(40, 'Furniture', 1, 'ProductType', 1),
+(41, 'Bathroom', 2, 'ProductType', 2),
+(42, 'Free Image', 0, 'ProductImageType', 1),
+(43, 'First Image', 1, 'ProductImageType', 2),
+(44, 'Second Image', 2, 'ProductImageType', 3),
+(45, 'Third Image', 3, 'ProductImageType', 4),
+(46, 'Fourth Image', 4, 'ProductImageType', 5),
+(52, 'Pending Approval', 0, 'DownloadApproval', 1),
+(50, 'Craft', 3, 'ProductType', 3),
+(53, 'Approved', 1, 'DownloadApproval', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_menu`
+--
+
+CREATE TABLE IF NOT EXISTS `app_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `level_id` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `urutan` int(11) NOT NULL,
+  `notaktif` int(11) NOT NULL DEFAULT '0',
+  `group_id` int(11) NOT NULL,
+  `role` int(11) NOT NULL DEFAULT '0' COMMENT '0=all, 1=guest, 2=member',
+  `date_entry` datetime NOT NULL,
+  `user_entry` int(11) NOT NULL,
+  `date_update` datetime NOT NULL,
+  `user_update` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+
+--
+-- Dumping data for table `app_menu`
+--
+
+INSERT INTO `app_menu` (`id`, `level_id`, `parent_id`, `urutan`, `notaktif`, `group_id`, `role`, `date_entry`, `user_entry`, `date_update`, `user_update`) VALUES
+(1, 1, 0, 1, 0, 2, 0, '2014-12-03 20:19:19', 1, '2014-12-11 02:30:45', 1),
+(3, 1, 0, 2, 0, 2, 0, '2014-12-06 20:58:34', 1, '2014-12-25 22:35:28', 1),
+(7, 1, 0, 4, 0, 2, 0, '2014-12-06 21:07:45', 1, '2014-12-25 22:36:45', 1),
+(9, 1, 0, 5, 0, 2, 0, '2014-12-06 21:08:21', 1, '2014-12-25 22:37:49', 1),
+(11, 2, 7, 1, 0, 2, 0, '2014-12-25 22:43:05', 1, '2015-03-21 16:58:42', 1),
+(16, 1, 0, 6, 0, 2, 0, '2015-02-07 11:54:02', 1, '0000-00-00 00:00:00', 0),
+(14, 2, 7, 4, 0, 2, 0, '2014-12-25 22:46:11', 1, '2015-03-21 17:00:03', 1),
+(15, 2, 7, 5, 0, 2, 0, '2014-12-25 22:46:41', 1, '2015-03-21 17:01:16', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_menu_content`
+--
+
+CREATE TABLE IF NOT EXISTS `app_menu_content` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `menu_id` int(11) NOT NULL,
+  `nama_menu` varchar(128) NOT NULL,
+  `keterangan` varchar(255) NOT NULL,
+  `rel_id` int(11) DEFAULT '0',
+  `link_action` varchar(255) NOT NULL,
+  `language` int(11) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+
+--
+-- Dumping data for table `app_menu_content`
+--
+
+INSERT INTO `app_menu_content` (`id`, `menu_id`, `nama_menu`, `keterangan`, `rel_id`, `link_action`, `language`) VALUES
+(1, 1, '<i class="fa fa-home"></i> Home', 'Home', 3, '/home', 1),
+(3, 3, '<i class="fa fa-user"></i> About Us', 'About Us', NULL, '/', 1),
+(17, 16, '<i class="fa fa-briefcase"></i> Services', '', 0, '#', 2),
+(7, 7, '<i class="fa fa-comment"></i> Blog', 'Our Works', NULL, '/', 1),
+(9, 9, '<i class="fa fa-envelope"></i> Contact Us', '<i class="fa fa-envelope"></i> Contact Us', 30, '/contact-us', 1),
+(11, 11, 'Entertainment', 'Entertainment', 0, '/post/entertainment', 1),
+(16, 16, '<i class="fa fa-briefcase"></i> Layanan', '', 0, '#', 1),
+(14, 14, 'Food & Health', 'Food & Health', 0, '/post/food-&-health', 1),
+(15, 15, 'Science & Technology', 'Science & Technology', 0, '/post/science-&-technology', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_menu_group`
+--
+
+CREATE TABLE IF NOT EXISTS `app_menu_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_group` varchar(128) NOT NULL,
+  `key` varchar(128) NOT NULL,
+  `status` int(11) NOT NULL,
+  `user_entry` int(11) NOT NULL,
+  `date_entry` datetime NOT NULL,
+  `user_update` int(11) NOT NULL,
+  `date_update` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `app_menu_group`
+--
+
+INSERT INTO `app_menu_group` (`id`, `nama_group`, `key`, `status`, `user_entry`, `date_entry`, `user_update`, `date_update`) VALUES
+(1, 'Bottom Menu', 'bottom_menu', 1, 1, '2013-05-17 08:46:23', 0, '0000-00-00 00:00:00'),
+(2, 'Main Menu', 'main_menu', 1, 1, '2014-04-19 22:10:47', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_nivo_slider`
+--
+
+CREATE TABLE IF NOT EXISTS `app_nivo_slider` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(128) DEFAULT NULL,
+  `image` varchar(255) NOT NULL,
+  `caption` text,
+  `url` text NOT NULL,
+  `order` int(11) NOT NULL,
+  `dateentry` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `app_nivo_slider`
+--
+
+INSERT INTO `app_nivo_slider` (`id`, `title`, `image`, `caption`, `url`, `order`, `dateentry`) VALUES
+(1, 'First Slide', '550ba0c3d8990.jpg', '', '', 1, NULL),
+(2, 'Second Slide', '550ba0f1a1853.jpg', '', '', 2, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_params`
+--
+
+CREATE TABLE IF NOT EXISTS `app_params` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `params_name` varchar(128) NOT NULL,
+  `key` varchar(128) NOT NULL,
+  `value` text NOT NULL,
+  `type` int(11) NOT NULL COMMENT '1=string/2=number/3=image',
+  `notes` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+
+--
+-- Dumping data for table `app_params`
+--
+
+INSERT INTO `app_params` (`id`, `params_name`, `key`, `value`, `type`, `notes`) VALUES
+(1, 'site name', 'site_name', 's:14:"Booking Engine";', 1, ''),
+(2, 'admin email', 'admin_email', 's:18:"info@localhost.com";', 1, 'Email untuk Info'),
+(3, 'logo', 'logo', 's:8:"logo.png";', 3, 'company logo'),
+(4, 'favicon', 'favicon', 's:11:"favicon.ico";', 3, 'favicon'),
+(5, 'meta description', 'meta_description', 's:30:"the description of the company";', 1, ''),
+(6, 'meta keywords', 'meta_keywords', 's:247:"hotel di jogja, hotel in jogja, hotel di yogya, hotel yogyakarta, hotel murah di jogja, hotel murah di yogya, penginapan di jogja, hotel dekat malioboro, penginapan murah jogja, cheap hotel in jogja, jogja hotel, hotels in jogja, homestay di jogja";', 1, 'separated with comas(,)'),
+(7, 'Phone', 'phone', 's:69:"<a href="tel:+6285727159159" class="text-white">+62 8572 715 9159</a>";', 1, 'nomor telepon perusahaan'),
+(8, 'tag line', 'tag_line', 's:22:"A Place Of Inspiration";', 1, ''),
+(9, 'company description', 'company_description', 's:121:"Lorem ipsum dolor sit amet consectetur incididunt ut labore et dolore magna aliqua adipisicing elit seddo eiusmod tempor.";', 1, ''),
+(10, 'address', 'address', 's:22:"Yogyakarta, Indonesia ";', 1, 'company address'),
+(11, 'facebook', 'facebook', 's:15:"StudentCastleYK";', 1, 'facebook account'),
+(12, 'twitter', 'twitter', 's:15:"StudentCastleYK";', 1, 'twitter account'),
+(13, 'Handphone', 'handphone', 's:62:"<a href="tel:+62818279290" class="text-white">+62818279290</a>";', 1, ''),
+(14, 'Fax', 'fax', 's:11:"0274 999999";', 1, ''),
+(15, 'Small Logo', 'small_logo', 's:9:"logo2.png";', 3, ''),
+(21, 'Google Plus', 'google_plus', 's:1:"#";', 1, ''),
+(22, 'Youtube', 'youtube', 's:11:"cdLnAXfJRxg";', 1, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_post`
+--
+
+CREATE TABLE IF NOT EXISTS `app_post` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tags` text COLLATE utf8_unicode_ci,
+  `status` int(11) NOT NULL,
+  `allow_comment` int(11) NOT NULL,
+  `post_type` int(11) NOT NULL,
+  `post_category` int(11) NOT NULL,
+  `headline` int(11) DEFAULT '0',
+  `create_time` int(11) DEFAULT NULL,
+  `update_time` int(11) DEFAULT NULL,
+  `author_id` int(11) DEFAULT '0',
+  `layout` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_post_author` (`author_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=39 ;
+
+--
+-- Dumping data for table `app_post`
+--
+
+INSERT INTO `app_post` (`id`, `tags`, `status`, `allow_comment`, `post_type`, `post_category`, `headline`, `create_time`, `update_time`, `author_id`, `layout`) VALUES
+(3, '', 2, 0, 1, 1, 0, 1367820639, 1426438600, 2, 'column_home'),
+(36, '', 2, 1, 0, 1, 0, 1423285229, 1426930848, 1, NULL),
+(37, '', 2, 1, 0, 2, 0, 1423285271, 1426926578, 1, NULL),
+(29, '', 2, 0, 1, 3, 0, 1418136144, 1418248271, 1, 'column_about'),
+(30, '', 2, 0, 1, 2, 0, 1418248694, 1418248694, 1, 'column_contact'),
+(35, 'lorem, ipsum, integer', 2, 1, 0, 4, 0, 1423285164, 1426931299, 1, NULL),
+(38, '', 2, 0, 1, 0, 0, 1426934365, 1426934736, 1, 'column_sitemap');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_post_category`
+--
+
+CREATE TABLE IF NOT EXISTS `app_post_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(128) NOT NULL,
+  `key` varchar(128) NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `notes` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `app_post_category`
+--
+
+INSERT INTO `app_post_category` (`id`, `category_name`, `key`, `parent_id`, `notes`) VALUES
+(1, 'Science & Technology', 'science-&-technology', 0, 'Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.'),
+(2, 'Food & Health', 'food-&-health', 0, 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.'),
+(3, 'Entertainment', 'entertainment', 0, 'Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.'),
+(4, 'Movies & TV Shows', 'movies-&-tv-shows', 0, 'Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_post_content`
+--
+
+CREATE TABLE IF NOT EXISTS `app_post_content` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) NOT NULL,
+  `title` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `content` text COLLATE utf8_unicode_ci NOT NULL,
+  `language` int(11) DEFAULT '1',
+  `viewed` int(11) DEFAULT '0',
+  `slug` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `meta_keywords` text COLLATE utf8_unicode_ci,
+  `meta_description` text COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=56 ;
+
+--
+-- Dumping data for table `app_post_content`
+--
+
+INSERT INTO `app_post_content` (`id`, `post_id`, `title`, `content`, `language`, `viewed`, `slug`, `meta_keywords`, `meta_description`) VALUES
+(3, 3, 'Home', '<!-- xxx Welcome Callout xxx --><p class="container"></p><p class="row"></p><p class="col-md-8 col-md-offset-2 text-center"></p><h1>WHO WE ARE?</h1><p class="bottom-teaser">&nbsp;</p><p class="animated"></p><p>PT. Java Connection - Indonesian Furniture company were produces and exported of Wooden Furniture, who specialized in Teak Wood Furniture, Recycled Teak, Mango Wood (Maginifera Indica), Wooden Craft and other Indonesia Wooden Furniture product from Yogyakarta, Indonesia.</p><p><a class="btn btn-green" href="/kontak">Read More</a></p><!-- xxx Welcome Callout End xxx --><p class="container"></p><p class="row"></p><p class="col-md-10 col-md-offset-1"></p><p class="col-md-4 col-sm-4 text-center animated"></p><p class="service-wrap-collection">&nbsp;\r\n<a class="service-wrap" href="#">COLLECTION </a></p><p class="col-md-4 col-sm-4 text-center animated"></p><p class="service-wrap-contact">&nbsp;\r\n<a class="service-wrap" href="#">WORKS </a></p><p class="col-md-4 col-sm-4 text-center animated"></p><p class="service-wrap-our-work">&nbsp;\r\n<a class="service-wrap" href="#">CONTACT </a></p><p class="container"></p><p class="col-md-10 col-md-offset-1 best-deal-content"></p><p class="col-md-6 left">&nbsp;</p><p class="col-md-6"></p><p class="text animated"></p><h1>BEST FURNITURE DEAL</h1><p>We accept custom ideas of recycled teak, design and indonesian furniture orders for teak wood buyers and we are ready to give the best of Indonesian furniture product</p><p>Call us now and Get Best Furniture Deal!</p><p><a class="btn btn-green" href="/kontak">Best Deal</a></p>', 1, 0, 'home', 'h', 'Lorem ipsum sit amet'),
+(52, 36, 'Important Information for US Authors', '<p>Integer convallis justo augue, et condimentum tortor scelerisque ut.  Ut mattis ullamcorper lacinia. Donec dignissim eu dui non ultrices.  Fusce ullamcorper suscipit ante, eget ultrices ipsum faucibus sagittis.  Nunc eu elit orci. Etiam id orci vitae mauris bibendum molestie sit amet  sed neque. Cras malesuada vulputate orci sed molestie. Phasellus  accumsan nunc sit amet egestas suscipit. Duis non ipsum ac risus  consequat dapibus placerat sed dui. Sed vitae risus scelerisque purus  euismod ornare. Phasellus ultricies ante vitae molestie adipiscing. </p><p>Lorem ipsum dolor sit amet, consectetur  adipiscing elit. Vivamus aliquet erat quis nibh vehicula, condimentum  placerat lectus iaculis. Nam ultricies nisi vel ligula pulvinar, quis  dapibus velit iaculis. In hac habitasse platea dictumst. In vitae nunc  tincidunt, euismod nibh sit amet, convallis arcu. Vestibulum feugiat  auctor auctor. Phasellus lacinia auctor metus, in posuere justo egestas  eget. Vivamus ornare tincidunt sagittis. Nunc pretium magna eu est  condimentum malesuada. Nunc arcu nulla, fringilla in sodales sed,  laoreet eget mi. Fusce ac suscipit turpis, sed porttitor mauris. </p>', 1, 0, 'important-information-for-us-authors', NULL, NULL),
+(51, 35, 'Faceted Search Has Landed', '<p>Integer convallis justo augue, et condimentum tortor scelerisque ut.  Ut mattis ullamcorper lacinia. Donec dignissim eu dui non ultrices.  Fusce ullamcorper suscipit ante, eget ultrices ipsum faucibus sagittis.  Nunc eu elit orci. Etiam id orci vitae mauris bibendum molestie sit amet  sed neque. Cras malesuada vulputate orci sed molestie. Phasellus  accumsan nunc sit amet egestas suscipit. Duis non ipsum ac risus  consequat dapibus placerat sed dui. Sed vitae risus scelerisque purus  euismod ornare. Phasellus ultricies ante vitae molestie adipiscing. </p><blockquote>                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p><p>                            <small>Someone famous in <cite>Source Title</cite></small>                         </p></blockquote><p>Lorem ipsum dolor sit amet, consectetur  adipiscing elit. Vivamus aliquet erat quis nibh vehicula, condimentum  placerat lectus iaculis. Nam ultricies nisi vel ligula pulvinar, quis  dapibus velit iaculis. In hac habitasse platea dictumst. In vitae nunc  tincidunt, euismod nibh sit amet, convallis arcu. Vestibulum feugiat  auctor auctor. Phasellus lacinia auctor metus, in posuere justo egestas  eget. Vivamus ornare tincidunt sagittis. Nunc pretium magna eu est  condimentum malesuada. Nunc arcu nulla, fringilla in sodales sed,  laoreet eget mi. Fusce ac suscipit turpis, sed porttitor mauris. </p>', 1, 0, 'faceted-search-has-landed', NULL, NULL),
+(45, 29, 'About Us', '<div class="container">\r\n<div class="row">\r\n<div class="col-md-8 col-md-offset-2 text-center">\r\n<h1>PT Java Connection - Indonesian Furniture</h1>\r\n\r\n<div class="bottom-teaser-small">&nbsp;</div>\r\n\r\n<p>PT. Java Connection - Indonesian Furniture company were produces and exported of Wooden Furniture, who specialized in Teak Wood Furniture, Recycled Teak, Mango Wood (Maginifera Indica), Wooden Craft and other Indonesia Wooden Furniture product from Yogyakarta, Indonesia.</p>\r\n<a class="btn btn-green" href="/">Read More</a></div>\r\n</div>\r\n</div>\r\n\r\n<div class="container">\r\n<div class="row">\r\n<div class="col-md-6 text-right">\r\n<h2>Collection</h2>\r\n\r\n<div class="bottom-teaser-small-right">&nbsp;</div>\r\n\r\n<div class="col-sm-12 no-padding">\r\n<p>We are specialized in Indonesian furniture product made of recycled teak (Tectona Grandist). It is distinguished product quality - each piece is unique since the old wood surface has been treated to emphasize the character of the recycled teak which is friendly to the environment. However, we also produce the Indonesian furniture made of other wood species such as Mahogany wood (Swietenia mahogani), Mindi Wood(melia azedarach), Jengkol Wood (Pithecelobium jiringa) which are more affordable in price without lessen the quality of Indonesian furniture for foreign market-quality. See our other types collection, river stone basin for bathrooms. We also offering you many collections of beautifull handicrafts like a bag collection, table top collection, artstone, wooden craft, unique etnics - and all of them in first class quality which can serve the western markets.</p>\r\n<a class="btn btn-green" href="/">VIEW OUR COLLECTION</a></div>\r\n</div>\r\n\r\n<div class="col-md-6 bg-collection">&nbsp;</div>\r\n</div>\r\n</div>\r\n\r\n<div class="container">\r\n<div class="row">\r\n<div class="col-md-6 bg-works">&nbsp;</div>\r\n\r\n<div class="col-md-6 text-left">\r\n<h2>Works</h2>\r\n\r\n<div class="bottom-teaser-small-left">&nbsp;</div>\r\n\r\n<div class="col-sm-12 no-padding">\r\n<p>Our Warehouse Furniture Occupying a land area of 1700 m2 production in Sleman, Yogyakarta, Indonesia. Within 25 employees, we are able to end between 6 and 8 containers units per month (for example: 3 or 4 x 20 container and 1 x 4o&quot; or 40 HQ container) where PT. Java Connection has a wide network of sub-suppliers Indonesian furniture all over Java and can provide a wide range of unique handmade products since we work with little mark up.</p>\r\n<a class="btn btn-green" href="/">VIEW OUR WORKS</a></div>\r\n</div>\r\n</div>\r\n</div>\r\n\r\n<div class="container">\r\n<div class="row">\r\n<div class="col-md-6 text-right">\r\n<h2>Best Furniture Deal</h2>\r\n\r\n<div class="bottom-teaser-small-right">&nbsp;</div>\r\n\r\n<div class="col-sm-12 no-padding">\r\n<p>We accept custom ideas of recycled teak, design and Indonesian furniture orders from teak wood buyers and we are ready to give the best of Indonesian furniture quality product.<br />\r\nCall us now and Get Best Furniture Deal!</p>\r\n<a class="btn btn-green" href="/">OUR BEST DEAL</a></div>\r\n</div>\r\n\r\n<div class="col-md-6 bg-best-deal">&nbsp;</div>\r\n</div>\r\n</div>\r\n', 1, 0, 'about-us', NULL, NULL),
+(46, 30, 'Contact Us', '<p>&nbsp;</p>', 1, 0, 'contact-us', NULL, NULL),
+(53, 37, 'Changing to a White Background', '<p>Finding what you want quickly and easily is the cornerstone of a  successful marketplace, and improving this experience was one of our  2014 Roadmap themes. Faceted search, or the ability to filter down your  search results, is a key and long-awaited component of a better  discovery experience. Today, were pleased to announce that it has made  its debut on Envato Market and will be fully rolled out across the sites  over the next two days.</p><p><strong>Community Involvement</strong></p><p>Earlier this year, we invited our community to collaborate  with us during the idea gathering phase of the project. We used Trello  to capture and discuss suggestions for faceted search. Although the  majority of these suggestions is yet to be implemented, this helped us  develop a big picture understanding of all the requirements and better  plan our approach to this project. More on this later.</p>', 1, 0, 'changing-to-a-white-background', NULL, NULL),
+(54, 38, 'Peta Situs', '&nbsp;', 1, 0, 'peta-situs', NULL, NULL),
+(55, 38, 'Site Map', '&nbsp;', 2, 0, 'site-map', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_post_language`
+--
+
+CREATE TABLE IF NOT EXISTS `app_post_language` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  `code` varchar(3) NOT NULL,
+  `default` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `app_post_language`
+--
+
+INSERT INTO `app_post_language` (`id`, `name`, `code`, `default`) VALUES
+(1, 'Bahasa Indonesia', 'id', 1),
+(2, 'English', 'en', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_product`
+--
+
+CREATE TABLE IF NOT EXISTS `app_product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  `description` text,
+  `type` int(11) NOT NULL,
+  `date_entry` datetime NOT NULL,
+  `user_entry` int(11) NOT NULL,
+  `date_update` datetime DEFAULT NULL,
+  `user_update` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_product_fasilities`
+--
+
+CREATE TABLE IF NOT EXISTS `app_product_fasilities` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_item_id` int(11) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `description` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_product_images`
+--
+
+CREATE TABLE IF NOT EXISTS `app_product_images` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_item_id` int(11) NOT NULL,
+  `image` varchar(128) NOT NULL,
+  `thumb` varchar(128) DEFAULT NULL,
+  `src` varchar(128) NOT NULL,
+  `type` int(11) DEFAULT '0',
+  `date_entry` datetime NOT NULL,
+  `user_entry` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_product_items`
+--
+
+CREATE TABLE IF NOT EXISTS `app_product_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `description` text,
+  `parent_id` int(11) DEFAULT '0',
+  `level` int(11) DEFAULT '0',
+  `date_entry` datetime NOT NULL,
+  `user_entry` int(11) NOT NULL,
+  `date_update` datetime DEFAULT NULL,
+  `user_update` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_product_prices`
+--
+
+CREATE TABLE IF NOT EXISTS `app_product_prices` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_item_id` int(11) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `period` varchar(128) NOT NULL,
+  `price` double NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_rbac_group`
+--
+
+CREATE TABLE IF NOT EXISTS `app_rbac_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_name` varchar(30) NOT NULL,
+  `level` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `app_rbac_group`
+--
+
+INSERT INTO `app_rbac_group` (`id`, `group_name`, `level`) VALUES
+(1, 'root', 99),
+(2, 'author', 98);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_rbac_group_access`
+--
+
+CREATE TABLE IF NOT EXISTS `app_rbac_group_access` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `module` varchar(30) NOT NULL,
+  `controller` varchar(30) NOT NULL,
+  `create_p` int(11) NOT NULL,
+  `read_p` int(11) NOT NULL,
+  `update_p` int(11) NOT NULL,
+  `delete_p` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `app_rbac_group_access`
+--
+
+INSERT INTO `app_rbac_group_access` (`id`, `module`, `controller`, `create_p`, `read_p`, `update_p`, `delete_p`, `group_id`) VALUES
+(1, 'basic', 'member', 1, 1, 1, 1, 1),
+(2, 'appadmin', 'changepassword', 1, 1, 1, 1, 1),
+(3, 'appadmin', 'nivoslider', 1, 1, 1, 1, 1),
+(4, 'appadmin', 'params', 1, 1, 1, 1, 1),
+(5, 'appadmin', 'rbacgroup', 1, 1, 1, 1, 1),
+(6, 'appadmin', 'users', 1, 1, 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_rbac_user_access`
+--
+
+CREATE TABLE IF NOT EXISTS `app_rbac_user_access` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `module` varchar(30) NOT NULL,
+  `controller` varchar(30) NOT NULL,
+  `create_p` int(11) NOT NULL,
+  `read_p` int(11) NOT NULL,
+  `update_p` int(11) NOT NULL,
+  `delete_p` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
+
+--
+-- Dumping data for table `app_rbac_user_access`
+--
+
+INSERT INTO `app_rbac_user_access` (`id`, `user_id`, `module`, `controller`, `create_p`, `read_p`, `update_p`, `delete_p`) VALUES
+(1, 1, 'basic', 'member', 1, 1, 1, 1),
+(2, 1, 'appadmin', 'changepassword', 1, 1, 1, 1),
+(3, 1, 'appadmin', 'nivoslider', 1, 1, 1, 1),
+(4, 1, 'appadmin', 'params', 1, 1, 1, 1),
+(5, 1, 'appadmin', 'rbacgroup', 1, 1, 1, 1),
+(6, 1, 'appadmin', 'users', 1, 1, 1, 1),
+(15, 1, 'appadmin', 'posts', 1, 1, 1, 1),
+(14, 1, 'appadmin', 'postcategory', 1, 1, 1, 1),
+(13, 1, 'appadmin', 'pages', 1, 1, 1, 1),
+(16, 1, 'appadmin', 'menu', 1, 1, 1, 1),
+(17, 1, 'appadmin', 'menugroup', 1, 1, 1, 1),
+(18, 1, 'appadmin', 'profile', 1, 1, 1, 1),
+(19, 1, 'appadmin', 'banners', 1, 1, 1, 1),
+(20, 1, 'appadmin', 'members', 1, 1, 1, 1),
+(21, 1, 'appadmin', 'membergroups', 1, 1, 1, 1),
+(22, 1, 'appadmin', 'courses', 1, 1, 1, 1),
+(23, 1, 'appadmin', 'classes', 1, 1, 1, 1),
+(24, 1, 'appadmin', 'comments', 1, 1, 1, 1),
+(25, 1, 'appadmin', 'subjects', 1, 1, 1, 1),
+(26, 1, 'appadmin', 'chapters', 1, 1, 1, 1),
+(27, 1, 'appadmin', 'reports', 1, 1, 1, 1),
+(28, 1, 'appadmin', 'uploads', 1, 1, 1, 1),
+(29, 1, 'appadmin', 'products', 1, 1, 1, 1),
+(30, 1, 'appadmin', 'galleries', 1, 1, 1, 1),
+(31, 1, 'appadmin', 'testimonials', 1, 1, 1, 1),
+(32, 1, 'appadmin', 'catalogues', 1, 1, 1, 1),
+(33, 1, 'appadmin', 'analytics', 1, 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_tag`
+--
+
+CREATE TABLE IF NOT EXISTS `app_tag` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `frequency` int(11) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `app_tag`
+--
+
+INSERT INTO `app_tag` (`id`, `name`, `frequency`) VALUES
+(1, 'lorem', 2),
+(2, 'ipsum', 2),
+(3, 'sit', 1),
+(4, 'amet', 1),
+(5, 'cras', 1),
+(6, 'gravida', 1),
+(7, 'integer', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_user`
+--
+
+CREATE TABLE IF NOT EXISTS `app_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `salt` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `group_id` int(11) NOT NULL DEFAULT '0',
+  `status` int(11) DEFAULT NULL,
+  `date_entry` datetime NOT NULL,
+  `user_entry` int(11) NOT NULL,
+  `date_update` datetime NOT NULL,
+  `user_update` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_visitor`
+--
+
+CREATE TABLE IF NOT EXISTS `app_visitor` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) DEFAULT '0',
+  `session_id` varchar(128) DEFAULT NULL,
+  `ip_address` varchar(39) NOT NULL,
+  `page_title` varchar(128) DEFAULT NULL,
+  `url` varchar(256) NOT NULL,
+  `url_referrer` varchar(256) DEFAULT NULL,
+  `platform` varchar(128) DEFAULT NULL,
+  `user_agent` varchar(128) DEFAULT NULL,
+  `mobile` int(11) DEFAULT '0',
+  `date_entry` datetime NOT NULL,
+  `user_entry` int(11) DEFAULT '0',
+  `date_expired` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+

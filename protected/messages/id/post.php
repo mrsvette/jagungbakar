@@ -1,0 +1,27 @@
+<?php
+return array(
+	'Latest Post'=>'Postingan Terbaru',
+	'Title'=>'Judul',
+	'Content'=>'Isi',
+	'Category'=>'Kategori',
+	'Allow Comment'=>'Perbolehkan Komentar',
+	'Author'=>'Penulis',
+	'True'=>'Ya',
+	'False'=>'Tidak',
+	'Draft'=>'Konsep',
+	'Published'=>'Publikasikan',
+	'Archived'=>'Dokumentasikan',
+	'posted by'=>'ditulis oleh',
+	'on'=>'pada',
+	'Last updated on'=>'Terakhir diubah pada',
+	'posted on'=>'ditulis pada',
+	'Comment'=>'Komentar',
+	'Comments'=>'Komentar',
+	'comments'=>'komentar',
+	'One comment'=>'1 Komentar',
+	'News'=>'Berita',
+	'Categories'=>'Kategori',
+	'Read more'=>'Selengkapnya',
+	'Leave a comment'=>'Tulis komentar',
+);
+?>

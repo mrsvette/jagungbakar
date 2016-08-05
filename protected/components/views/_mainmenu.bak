@@ -1,0 +1,73 @@
+<?php if (Yii::app()->theme->name=='classic'):?>
+<?php
+	$this->widget('zii.widgets.CMenu', array(
+		'id'=>'menu-main-menu',
+		'items'=>$items,
+		'htmlOptions'=>array('class'=>'jetmenu'),
+		'submenuHtmlOptions'=>array('class'=>'dropdown','role'=>'menu'),
+		'activeCssClass'=>'active',
+		'encodeLabel'=>false,
+	));
+?>
+<script type="text/javascript">
+$(function(){
+	var url='<?php echo Yii::app()->request->url;?>';
+	$('ul[id="menu-main-menu"]').find('a').each(function(){
+		if($(this).attr('href')==url)
+			$(this).parent().addClass('active');
+	});
+	$('.navbar-toggle').click(function(){
+		$('#menu-link').toggle();
+	});
+});
+</script>
+<?php elseif (Yii::app()->theme->name=='jagungbakar'):?>
+<nav id="nav_menu">
+<?php
+	$this->widget('zii.widgets.CMenu', array(
+		'id'=>'menu-main-menu',
+		'items'=>$items,
+		'submenuHtmlOptions'=>array('class'=>'dropdown','role'=>'menu'),
+		'activeCssClass'=>'active',
+		'encodeLabel'=>false,
+	));
+?>
+</nav>
+<?php elseif(Yii::app()->theme->name=='semutmerah'):?>
+<?php
+	$this->widget('zii.widgets.CMenu', array(
+		'id'=>'menu-main-menu',
+		'items'=>$items,
+		'htmlOptions'=>array('class'=>'nav navbar-nav'),
+		'submenuHtmlOptions'=>array('class'=>'dropdown-menu','role'=>'menu'),
+		'activeCssClass'=>'active',
+		'encodeLabel'=>false,
+	));
+?>
+<?php
+Yii::app()->clientScript->registerScript('customize', "
+	$('ul.navbar-nav').find('li').addClass('dropdown');
+	var menu=$('ul.dropdown-menu').parent().find('a:first');
+	menu.addClass('dropdown-toggle');
+	menu.attr('data-toggle','dropdown');
+	menu.append('<b class=\"caret\"></b>');
+");
+?>
+<?php elseif (Yii::app()->theme->name=='tahutempe'):?>
+<?php
+	$this->widget('zii.widgets.CMenu', array(
+		'id'=>'menu-main-menu',
+		'items'=>$items,
+		'htmlOptions'=>array('class'=>'header-nav collapse'),
+		'submenuHtmlOptions'=>array('class'=>'dropdown','role'=>'menu'),
+		'activeCssClass'=>'active',
+		'encodeLabel'=>false,
+	));
+?>
+<?php
+Yii::app()->clientScript->registerScript('customize', "
+	var menu=$('ul.dropdown').parent().find('a:first');
+	menu.append('<i class=\"glyph-icon icon-angle-down\"></i>');
+");
+?>
+<?php endif;?>
