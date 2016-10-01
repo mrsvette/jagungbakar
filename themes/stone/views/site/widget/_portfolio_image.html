@@ -1,0 +1,53 @@
+<div id="portfolio-img-list">
+{% for data in dataProvider.data %}
+	{{ C.Html.image(App.request.baseUrl~'/'~data.src~''~data.image,'',{'class':'img-responsive'}) |raw }}
+{% endfor %}
+</div>
+{% if widget.pagination %}
+<center>
+	<div class="{% if not widget.show_pagination %}hide{% else %}button-view{% endif %} no-margin" id="portofolio-image-pagination">
+		{% do this.widget(
+			'CLinkPager', 
+			{
+				'pages' : dataProvider.pagination,
+				'htmlOptions':{
+					'class':'pagination',
+				},
+				'header':'',
+				'firstPageLabel':false,
+				'prevPageLabel':false,
+				'nextPageLabel':false,
+				'lastPageLabel':false,
+			}) 
+		%}
+	</div>
+</center>
+{% endif %}
+<script type="text/javascript">
+$(function(){
+	$('#portofolio-image-pagination').find('.pagination a').click(function(){
+		var pageSize = "{{ widget.pageSize }}";
+		var portfolio_id = "{{ widget.portfolio_id }}";
+		var options = "{'portfolio_id':"+portfolio_id+",'show_pagination':true,'pageSize':"+pageSize+"}";
+		$.ajax({	
+			url: "{{ App.createUrl('/site/reloadWidget') }}",				
+			type: "POST",
+			dataType: "JSON",
+			data: {
+				'widget_path':'application.modules.portfolio.components.ImagePortfolioWidget',
+				'options': options,
+				'href': $(this).attr('href'),
+			},
+			success: function(data){
+				if(data.status=='success')
+					$('#portfolio-img-list').parent().html(data.div);
+			}
+		});
+		return false;
+	});
+	$('#portfolio-img-list').parent().find('button.btn-recent').click(function(){
+		window.location.href = $(this).attr('href');
+		return false;
+	});
+});
+</script>

@@ -1,0 +1,71 @@
+<div class="container">
+		<div class="row no-header-plain"></div>
+	</div>
+	<div class="container-fluid">
+		<div class="row strip-big">
+			<div class="col-md-6 strip-right">
+				THANK YOU FOR YOUR INQUIRY
+			</div>
+			<div class="col-md-6 strip-left"> 
+				{{ C.Html.link('Home',['/home'],{'class':'text-white'}) |raw }} / Thank You Page
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row thank-w">
+			<div class="thank-you">
+				Thank You !!
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="row thank">
+			<div class="content">
+			<div class="col-md-7">
+				<div class="title-thank">
+					{{ message }}
+				</div>
+				<p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+				</p>
+			</div>
+			<div class="col-md-5 text-center">
+				<img src="{{ App.request.baseUrl~'/uploads/images/image-thankyou-page.png' }}"></a>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row get-in">
+			<center>
+				<div class="headline">GET IN TOUCH</div>
+				<div class="strip"></div>
+				<div class="tagline">
+					<strong>Interest about our products and services?</strong><br>
+					We would be happy to share with your experiences and help you understand<br>
+					the potential about your traditional wooden houses, villas in a real high qualified taste and art.
+				</div>
+				<div class="social-media">
+					<a href="https://www.facebook.com/{{ App.config.get('facebook') }}" target="_blank">
+						{{ C.Html.image(App.request.baseUrl~'/uploads/images/fb.png','facebook',{'class':'img-responsive'}) |raw }}
+					</a>
+					<a href="https://twitter.com/{{ App.config.get('facebook') }}" target="_blank">
+						{{ C.Html.image(App.request.baseUrl~'/uploads/images/twitter.png','twitter',{'class':'img-responsive'}) |raw }}
+					</a>
+					<a href="https://plus.google.com/{{ App.config.get('google_plus') }}" target="_blank">
+						{{ C.Html.image(App.request.baseUrl~'/uploads/images/g+.png','g+',{'class':'img-responsive'}) |raw }}
+					</a>
+					<a href="https://www.linkedin.com/in/{{ App.config.get('linkedin') }}" target="_blank">
+						{{ C.Html.image(App.request.baseUrl~'/uploads/images/linkedin.png','linkedin',{'class':'img-responsive'}) |raw }}
+					</a>
+					<a href="https://instagram.com/{{ App.config.get('instagram') }}" target="_blank">
+						{{ C.Html.image(App.request.baseUrl~'/uploads/images/ig.png','ig',{'class':'img-responsive'}) |raw }}
+					</a>
+				</div>
+			</center>
+		</div>
+	</div>
+<script type="text/javascript">
+$(function(){
+	$('.bg-header').addClass('no-header');
+});
+</script>

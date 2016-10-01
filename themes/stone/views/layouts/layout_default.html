@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	
+	<meta name="language" content="id" />	
+	<meta name="description" content="{{ this.meta_description }}" /> 
+	<meta name="keywords" content="{{ this.meta_keywords }}" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="shortcut icon" type="image/x-icon" href="{{ App.request.baseUrl~'/uploads/images/'~App.config.get('favicon') }}">
+	
+	<title>{% block title %}{{ C.Html.encode(this.pageTitle) }}{% endblock %}</title>
+	<link rel="canonical" href="{{ App.request.requestUri }}" />
+</head>
+<body class="sticky-header">
+<!-- start of css -->
+{{ this.get_css({'path':'css/'~App.theme.name~'/css/bootstrap.min.css'}) |raw }}
+{{ this.get_css({'path':'css/'~App.theme.name~'/css/bootstrap-theme.min.css'}) |raw }}
+{# if constant('YII_DEBUG') %}
+<link rel="stylesheet" href="{{ App.request.baseUrl~'/css/'~App.theme.name~'/css/style.css' }}">
+{% else #}
+{{ this.get_css(
+	{'path':'css/'~App.theme.name~'/css/style.css'},
+	{'patern':'../img','replacement':App.request.baseUrl~'/css/'~App.theme.name~'/img'}
+	) |raw 
+}}
+{# endif #}
+<!-- end of css -->
+{{ this.get_js({'path':'css/'~App.theme.name~'/js/jquery-2.1.4.min.js'}) |raw }}
+{# spaceless #}
+	{% block bgheader %}
+	<div class="bg-header"></div>
+	{% endblock %}
+	<nav class="navbar navbar-default no-margin">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="{{ App.createUrl('/') }}">
+					{{ C.Html.image(App.request.baseUrl~'/uploads/images/'~App.config.get('logo')) |raw }}
+				</a>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				{% set menu = this.widget('mainMenu') %}
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+	{% block content %}
+		{{content | raw}}
+	{% endblock %}
+	<div class="bottom-menu">
+		<div class="container-fluid no-padding">
+			<div id="bottomnav">
+				{% set menu = this.widget('bottomMenu') %}
+			</div>
+		</div>
+	</div>
+	<div class="footer">
+		<div class="container">
+			<center>
+				{{ C.Html.image(App.request.baseUrl~'/uploads/images/logo-v.png','facebook',{'class':'img-responsive'}) |raw }}
+				<p>Email : {{ App.config.get('admin_email') }}</p>
+				<p>Phone : {{ App.config.get('phone') |raw }}</p>
+				<center>
+				<p>Address : {{ App.config.get('address') }}</p>
+				</center>
+				<div class="social-media">
+					<a href="https://www.facebook.com/{{ App.config.get('facebook') }}" target="_blank">
+						{{ C.Html.image(App.request.baseUrl~'/uploads/images/fb.png','facebook',{'class':'img-responsive'}) |raw }}
+					</a>
+					<a href="https://twitter.com/{{ App.config.get('facebook') }}" target="_blank">
+						{{ C.Html.image(App.request.baseUrl~'/uploads/images/twitter.png','twitter',{'class':'img-responsive'}) |raw }}
+					</a>
+					<a href="https://plus.google.com/{{ App.config.get('google_plus') }}" target="_blank">
+						{{ C.Html.image(App.request.baseUrl~'/uploads/images/g+.png','g+',{'class':'img-responsive'}) |raw }}
+					</a>
+					<a href="https://www.linkedin.com/in/{{ App.config.get('linkedin') }}" target="_blank">
+						{{ C.Html.image(App.request.baseUrl~'/uploads/images/linkedin.png','linkedin',{'class':'img-responsive'}) |raw }}
+					</a>
+					<a href="https://instagram.com/{{ App.config.get('instagram') }}" target="_blank">
+						{{ C.Html.image(App.request.baseUrl~'/uploads/images/ig.png','ig',{'class':'img-responsive'}) |raw }}
+					</a>
+				</div>
+				<div class="strip"></div>
+				<div class="copyright">© 2016 All Rights Reserved. Creative Design made by {{ C.Html.link('Energy Webhouse','http://www.energywebhouse.com')|raw }}</div>
+			</center>
+		</div>
+	</div>
+{# endspaceless #}
+	<!-- Bootstrap JavaScript -->
+	<script async src="{{ App.request.baseUrl~'/css/'~App.theme.name~'/js/bootstrap.min.js' }}"></script>  
+	<script async src="{{ App.request.baseUrl~'/css/'~App.theme.name~'/js/main.js' }}"></script> 
+{% do this.widget('application.modules.analitik.components.AnalitikWidget') %}
+</body>
+</html>

@@ -1,0 +1,6 @@
+{% set title = (App.config.get('tag_line')|capitalize)~' - '~App.config.get('site_name') %}
+{% do this.setPageTitle(title) %}
+
+{% set pcontent = call('Post','getContentPage',[page]) %}
+
+{{ include(template_from_string(pcontent)) }}

@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>Yii::t('global','List').' '.Yii::t('TestimonialModule.testimonial','Testimonial'), 'url'=>array('view')),
-	array('label'=>Yii::t('global','Create').' '.Yii::t('TestimonialModule.testimonial','Testimonial'), 'url'=>'#new', 'linkOptions'=>array('data-toggle'=>'tab')),
+	array('label'=>Yii::t('global','Create').' '.Yii::t('TestimonialModule.testimonial','Testimonial'), 'url'=>array('view#new'), 'linkOptions'=>array('data-toggle'=>'tab')),
 );
 ?>
 <div class="panel panel-default">

@@ -33,13 +33,22 @@
 				<?php echo $form->error($model,'url'); ?>
 			</div>
 		</div>
-		<div class="form-group">
+		<?php /*<div class="form-group">
 			<?php echo $form->labelEx($model,'caption',array('class'=>'col-md-3')); ?>
 			<div class="col-md-9">
 				<?php echo $form->textArea($model,'caption',array('rows'=>3,'class'=>'form-control')); ?>
 				<?php echo $form->error($model,'caption'); ?>
 			</div>
+		</div>*/?>
+		<?php foreach(CHtml::listData(PostLanguage::model()->findAll(),'code','name') as $code=>$lname):?>
+		<div class="form-group">
+			<label class="col-md-3"><?php echo $model->getAttributeLabel('caption');?> (<?php echo $lname;?>)</label>
+			<div class="col-md-9">
+				<?php echo $form->textArea($model,'caption['.$code.']',array('rows'=>3,'class'=>'form-control','value'=>$model->getCaptionLanguage(0,$code))); ?>
+				<?php echo $form->error($model,'caption'); ?>
+			</div>
 		</div>
+		<?php endforeach;?>
 		<?php echo $form->hiddenField($model,'slide_show_id',array('value'=>$model->slide_show_id));?>
 		<div class="form-group">
 			<?php 
@@ -50,7 +59,7 @@
 						'style'=>'width:100px',
 						'class'=>'btn btn-success',
 						'id'=>'item-submit-btn',
-						'href'=>CHtml::normalizeUrl(array('sDefault/createItem','id'=>$model->id))
+						'href'=>CHtml::normalizeUrl(array('sDefault/createItem','id'=>$model->slide_show_id))
 					)
 				);
 			else:

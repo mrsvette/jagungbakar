@@ -3,6 +3,7 @@ return array(
 	'Testimonial'=>'Testimonial',
 	'Testimonial Settings'=>'Konfigurasi Testimonial',
 	'Name'=>'Nama',
+	'Company'=>'Perusahaan',
 	'Description'=>'Deskripsi',
 	'Image'=>'Gambar',
 	'Testimonial need several configuration. Please separated allowed file type with comas "," and fill file size in bytes.'

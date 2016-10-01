@@ -15,6 +15,7 @@ class EController extends CController
 		//update data online each request page to keep online detection
 		/*if(!Yii::app()->user->isGuest)
 			Yii::app()->counter->refresh();*/
+		
 		return true;
 	  } else
 		return false;

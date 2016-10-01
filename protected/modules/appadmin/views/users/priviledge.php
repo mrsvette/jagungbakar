@@ -61,7 +61,7 @@ if(num>0)
 	</div>
 	<div class="panel-body">
 		<?php if(Yii::app()->user->hasFlash('userrbac')): ?>
-		<div class="flash-success">
+		<div class="alert alert-success">
 			<?php 
 				header('refresh: 3;');
 				echo Yii::app()->user->getFlash('userrbac'); 

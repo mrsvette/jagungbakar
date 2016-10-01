@@ -81,7 +81,7 @@ $('.dd-item').find('a.delete').click(function(){
 			<?php $this->widget(
 					'ext.nestable.Nestable',
 					array(
-						'element'=>'#nestable',
+						'element'=>'div#nestable',
 						'options'=>array('rootClass'=>'dd')
 					)
 			);?>

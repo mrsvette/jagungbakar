@@ -257,19 +257,25 @@ class Post extends CActiveRecord
 		return $news;
 	}
 
-	public function listItems($title='- Choose Page-')
+	public function listItems($title='- Choose Page-',$lang=0)
 	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('post_type',1);
 		$criteria->compare('status',2);
 		$criteria->order='id ASC';
+		$list = array();
 		if(!empty($title))
 			$list['']=$title;
 			
 		$models=self::model()->findAll($criteria);
 		if(!empty($models)){
 			foreach($models as $model){
-				$list[$model->id]=ucfirst($model->content_rel->title);
+				if($lang>0){
+					$page_content = self::getContent($lang,$model->id);
+					if(!empty($page_content))
+						$list[$model->id] = ucfirst($page_content->title);
+				}else
+					$list[$model->id]=ucfirst($model->content_rel->title);
 			}
 		}
 		return $list;
@@ -423,10 +429,7 @@ class Post extends CActiveRecord
 
 	public function getLayoutItems($title='- Pilih Layout -',$basename = '.php')
 	{
-		//$columns=glob('themes/'.Yii::app()->theme->name.'/views/layouts/column*'.$basename);
-		//bugs found 1 apr 16, Yii::app()->theme->name not right value on appadmin
-		$columns = glob('themes/'.Yii::app()->config->get('theme').'/views/layouts/column*'.$basename);
-		
+		$columns=glob('themes/'.Yii::app()->theme->name.'/views/layouts/column*'.$basename);
 		$items=array();
 		if(!empty($title))
 			$items['']=$title;

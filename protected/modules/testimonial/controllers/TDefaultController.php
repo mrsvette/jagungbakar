@@ -133,8 +133,8 @@ class TDefaultController extends EController
 				$file = CUploadedFile::getInstance($model,'image');
 				$extension = pathinfo($file->name, PATHINFO_EXTENSION);
 				if(!empty($file)){
-					$exp = explode('protected',Yii::app()->basePath);
-					$basePath = $exp[0];
+					list($CurWidth,$CurHeight) = getimagesize($file->tempName);
+					$basePath = Yii::getPathOfAlias('webroot').'/';
 					if(!is_dir($basePath.$path))
 						Yii::app()->file->createDir($permissions=0755, $path);
 					if(!is_dir($basePath.$path_thumbs))
@@ -142,9 +142,25 @@ class TDefaultController extends EController
 					$fname = Tools::slug($model->name).'-'.time().'.'.$extension;
 					$model->image = $fname;
 					if($file->saveAs($path.'/'.$fname)){ //upload image
+						//resize image to ideal size
+						$force_resize = (int)Extension::getConfigByModule('testimonial','testimonial_image_force_resize');
+						if($force_resize>0){
+							$ideal_width = (int)Extension::getConfigByModule('testimonial','testimonial_image_width');
+							$ideal_height = (int)Extension::getConfigByModule('testimonial','testimonial_image_height');
+							if(($CurWidth!=$ideal_width) || ($CurHeight!=$ideal_height)){
+								$thumb2 = Yii::app()->phpThumb->create($path.'/'.$fname);
+								$percentage = ($ideal_width/$CurWidth)*100;
+								$thumb2->resizePercent($percentage);
+								$thumb2->save($path.'/'.$fname);
+								//force resize thumb
+								$thumb3 = Yii::app()->phpThumb->create($path.'/'.$fname);
+								$thumb3->adaptiveResize($ideal_width,$ideal_height);
+								$thumb3->save($path.'/'.$fname);
+							}
+						}
 						//create thumb
 						$thumb = Yii::app()->phpThumb->create($path.'/'.$fname);
-						$thumb->resize(250,250);
+						$thumb->adaptiveResize(128,128);
 						$thumb->save($path_thumbs.'/'.$fname);
 
 						$model->save();
@@ -175,18 +191,18 @@ class TDefaultController extends EController
 
 			$model->attributes = $_POST['ModTestimonial'];
 			//default path uploads/images/testimonial
-			$path = Extension::getConfigByModule('testimonial','gallery_upload_path');
+			$path = Extension::getConfigByModule('testimonial','testimonial_upload_path');
 			$model->src = $path.'/';
 			//default path uploads/images/testimonial/_thumbs
 			$path_thumbs = $path.'/_thumbs';
 			$model->thumb = $path_thumbs.'/';
 			$model->date_update = date(c);
-			if($model->update(array('name','activity','website','comment','date_update'))){
+			if($model->update(array('name','activity','company','website','comment','date_update'))){
 				$file = CUploadedFile::getInstance($model,'image');
 				$extension = pathinfo($file->name, PATHINFO_EXTENSION);
 				if(!empty($file)){
-					$exp = explode('protected',Yii::app()->basePath);
-					$basePath = $exp[0];
+					list($CurWidth,$CurHeight) = getimagesize($file->tempName);
+					$basePath = Yii::getPathOfAlias('webroot').'/';
 					if(!is_dir($basePath.$path))
 						Yii::app()->file->createDir($permissions=0755, $path);
 					if(!is_dir($basePath.$path_thumbs))
@@ -194,9 +210,25 @@ class TDefaultController extends EController
 					$fname = Tools::slug($model->name).'-'.time().'.'.$extension;
 					$model->image = $fname;
 					if($file->saveAs($path.'/'.$fname)){ //upload image
+						//resize image to ideal size
+						$force_resize = (int)Extension::getConfigByModule('testimonial','testimonial_image_force_resize');
+						if($force_resize>0){
+							$ideal_width = (int)Extension::getConfigByModule('testimonial','testimonial_image_width');
+							$ideal_height = (int)Extension::getConfigByModule('testimonial','testimonial_image_height');
+							if(($CurWidth!=$ideal_width) || ($CurHeight!=$ideal_height)){
+								$thumb2 = Yii::app()->phpThumb->create($path.'/'.$fname);
+								$percentage = ($ideal_width/$CurWidth)*100;
+								$thumb2->resizePercent($percentage);
+								$thumb2->save($path.'/'.$fname);
+								//force resize thumb
+								$thumb3 = Yii::app()->phpThumb->create($path.'/'.$fname);
+								$thumb3->adaptiveResize($ideal_width,$ideal_height);
+								$thumb3->save($path.'/'.$fname);
+							}
+						}
 						//create thumb
 						$thumb = Yii::app()->phpThumb->create($path.'/'.$fname);
-						$thumb->resize(250,250);
+						$thumb->adaptiveResize(128,128);
 						$thumb->save($path_thumbs.'/'.$fname);
 						//delete the old image
 						if($model->image != $old_image){

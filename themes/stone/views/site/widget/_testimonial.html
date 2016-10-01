@@ -1,0 +1,101 @@
+<div id="our-happy-client">
+	{% for data in dataProvider.data %}
+		<div class="{{ widget.class_name }}">
+			<div class="grid-clients">
+				{% if widget.use_thumb %}
+					<img src="{{ App.request.baseUrl~'/'~data.thumb~''~data.image}}" alt="{{ App.config.get('site_name') }} client {{ data.name }}" class="img-circle">
+				{% else %}
+					<img src="{{ App.request.baseUrl~'/'~data.src~''~data.image}}" alt="{{ App.config.get('site_name') }} client {{ data.name }}" class="img-circle">
+				{% endif %}
+				<p>“ {{ data.comment }} ”</p>
+				<div class="strip"></div>
+				<div class="client-name"><strong>{{ data.name }}</strong>, {{ data.activity }}</div>
+				{% if data['company'] is not null %}
+					<div class="client-company">{{ data.company | default("") }}</div>
+				{% endif %}
+				{% if data['website'] is not null %}
+					<div class="client-company-link">{{ data.website | default("") }}</div>
+				{% endif %}
+			</div>
+		</div>
+	{% endfor %}
+	{# if widget.pagination %}
+	<div class="hide">
+		{% do this.widget('CLinkPager', {'pages' : dataProvider.pagination}) %}
+	</div>
+	{% endif #}
+</div>
+{% if widget.pagination %}
+<center>
+	<div class="{% if not widget.show_pagination %}hide{% else %}button-view{% endif %}">
+		{% do this.widget(
+			'CLinkPager', 
+			{
+				'pages' : dataProvider.pagination,
+				'htmlOptions':{
+					'class':'pagination',
+				},
+				'header':'',
+			}) 
+		%}
+	</div>
+</center>
+{% endif %}
+<script type="text/javascript">
+$(function(){
+	$('.clients').find('.btn-view').click(function(){
+		var options = "{'class_name':'col-md-4 col-lg-4','use_thumb':true,'pagination':false}";
+		$.ajax({	
+			url: "{{ App.createUrl('/site/reloadWidget') }}",				
+			type: "POST",
+			dataType: "JSON",
+			data: {
+				'widget_path':'application.modules.testimonial.components.TestimonialWidget',
+				'options': options
+			},
+			success: function(data){
+				if(data.status=='success')
+					$('#our-happy-client').parent().html(data.div);
+			}
+		});
+		return false;
+	});
+	$('.clients').find('button.next').click(function(){
+		var next = $('#our-happy-client').find('li.next').find('a').attr('href');
+		if(typeof(next)!='undefined')
+			window.location.href = next;
+	});
+	$('.clients').find('button.previous').click(function(){
+		var previous = $('#our-happy-client').find('li.previous').find('a').attr('href');
+		if(typeof(previous)!='undefined')
+			window.location.href = previous;
+	});
+	$('.clients').find('.pagination a').click(function(){
+		var options = "{'class_name':'col-md-4 col-sm-6 col-xs-12 no-padding','use_thumb':false,'show_pagination':true}";
+		$.ajax({	
+			url: "{{ App.createUrl('/site/reloadWidget') }}",				
+			type: "POST",
+			dataType: "JSON",
+			data: {
+				'widget_path':'application.modules.testimonial.components.TestimonialWidget',
+				'options': options,
+				'href': $(this).attr('href'),
+			},
+			success: function(data){
+				if(data.status=='success')
+					$('#our-happy-client').parent().html(data.div);
+			}
+		});
+		return false;
+	});
+	setImgHeight();
+});
+function setImgHeight(){
+	var img = new Array()
+	$('#our-happy-client').find('.grid-clients').each(function(){
+		img.push($(this).parent().height());
+	});
+	var img_min_height = Math.max.apply(Math, img);
+	$('#our-happy-client').find('.grid-clients').attr('style','min-height:'+img_min_height+'px');
+}
+</script>

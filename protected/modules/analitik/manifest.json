@@ -1,10 +1,29 @@
 {
     "id":           "analitik",
     "name":         "Analitik Module",
-    "description":  "Analitik module for jagung bakar",
+    "description":  "Analitik module for jagung bakar 1.1.2",
     "icon":     "icon.png",
     "author":       "farid efendi",
     "author_url":   "http://jagungbakar.web.id/",
     "license":      "GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html",
     "version":      "1.0.0",
+	"config"		: {
+			0:{
+				"title":"Analytics Type",
+				"name":"analitik_type",
+				"value":'jb',
+				"type":"string",
+				"options":{
+					'jb':"JB Analytic",
+					'ga':"Google Analytic",
+				},
+			},
+			1:{
+				"title":"Analytics Code",
+				"name":"analitik_code",
+				"value":null,
+				"type":"textarea",
+				"placeholder":"analytic code",
+			},
+		}
 }

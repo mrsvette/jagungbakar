@@ -57,7 +57,7 @@
 				<?php if($model->content_rel->rel_id>0): ?>
 				<div class="form-group  col-md-6">
 					<label>&nbsp;</label>
-					<?php echo $form->dropDownList($model2,'page['.$lang.']',Post::listItems(),array('class'=>'form-control')); ?>
+					<?php echo $form->dropDownList($model2,'page['.$lang.']',Post::listItems(null,$lang),array('class'=>'form-control')); ?>
 				</div>
 				<?php else:?>
 				<div class="form-group  col-md-6">

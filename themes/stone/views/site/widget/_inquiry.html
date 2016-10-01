@@ -1,0 +1,38 @@
+	<p>{{ call('Yii','t',['contact','Please fill the inquiry and order form below with our secure guarantee private data. Your data will not publicize and put in our data base respectful customers only.']) }}</p>	
+	{% set form=this.beginWidget('CActiveForm', {
+			'id':'inquiry-form',
+			'enableAjaxValidation':false,
+			'htmlOptions':{'role':'form'},
+	}) %}
+	{{ form.errorSummary(model,null,null,{'class':'alert alert-warning alert-block alert-dismissable fade in'}) |raw }}
+
+	{% if App.user.hasFlash('inquiry') %}
+	<div class="alert alert-success">
+		<button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+		{{ App.user.getFlash('inquiry') }}
+	</div>
+	{% endif %}
+	<div class="form-group">
+		{{ form.textField(model,'name',{'class':'form-control','placeholder':'Name'})|raw }}
+		{{ form.error(model,'name')|raw }}
+	</div>
+	<div class="form-group">
+		{{ form.textField(model,'phone',{'class':'form-control','placeholder':'Contact'})|raw }}
+		{{ form.error(model,'phone')|raw }}
+	</div>
+	<div class="form-group">
+		{{ form.textField(model,'email',{'class':'form-control','placeholder':'Email'})|raw }}
+		{{ form.error(model,'email')|raw }}
+	</div>
+	<div class="form-group">
+		{{ form.textField(model,'website',{'class':'form-control','placeholder':'Website'})|raw }}
+		{{ form.error(model,'website')|raw }}
+	</div>
+	<div class="form-group">
+		{{ form.textArea(model,'description',{'class':'form-control','placeholder':'Specification & Order','rows':4})|raw }}
+		{{ form.error(model,'description')|raw }}
+	</div>
+	<div class="form-group">
+		{{ C.Html.submitButton(call('Yii','t',['global','Submit']),{'class':'btn-view','style':'min-width:100px;'})|raw }}
+	</div>
+	{% do this.endWidget() %}

@@ -105,3 +105,11 @@ $this->menu=array(
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+$(function(){
+	var tab = "<?php echo $_GET['t'];?>";
+	if(tab){
+		$('a[href="'+tab+'"]').trigger('click');
+	}
+});
+</script>

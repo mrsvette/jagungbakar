@@ -1,0 +1,107 @@
+{{ this.get_css({'path':'css/'~App.theme.name~'/vendors/magnificpopup/magnific-popup.css'}) |raw }}
+{{ this.get_css({'path':'css/'~App.theme.name~'/css/portfolio.css'}) |raw }}
+<div class="portfolio-isotope">
+	{% for data in dataProvider.data %}
+	<div class="{{ widget.class_name }} item">
+    	<div class="portfolio-item">
+			<div class="portfolio-item-preview">
+				{% if widget.use_thumb %}
+					<img src="{{ App.request.baseUrl~'/'~data.thumb~''~data.image}}" alt="">
+				{% else %}
+					<img src="{{ App.request.baseUrl~'/'~data.src~''~data.image}}" alt="">
+				{% endif %}
+				<div class="portfolio-item-overlay">
+					<div class="portfolio-item-overlay-actions">
+						<a class="portfolio-item-zoom magnificPopup-gallery" href="{{ App.request.baseUrl~'/'~data.src~''~data.image}}">+</a>
+					</div><!-- end .portfolio-item-overlay-actions -->
+					<div class="portfolio-item-description">
+						<h4>{{ data.name }}</h4>
+						<p>{{ data['description'] }}</p>
+					</div><!-- end .portfolio-item-description -->
+				</div><!-- end .portfolio-item-overlay -->
+			</div><!-- end .portfolio-item-preview -->
+		</div><!-- end .portfolio-item -->
+	</div>
+	{% endfor %}
+</div>
+{% if widget.pagination %}
+<center>
+	<div class="{% if not widget.show_pagination %}hide{% else %}button-view{% endif %}">
+		{% do this.widget(
+			'CLinkPager', 
+			{
+				'pages' : dataProvider.pagination,
+				'htmlOptions':{
+					'class':'pagination',
+				},
+			}) 
+		%}
+	</div>
+</center>
+{% endif %}
+{{ this.get_js({'path':'css/'~App.theme.name~'/vendors/isotope/imagesloaded.pkgd.min.js'}) |raw }}
+{{ this.get_js({'path':'css/'~App.theme.name~'/vendors/isotope/isotope.pkgd.min.js'}) |raw }}
+{{ this.get_js({'path':'css/'~App.theme.name~'/vendors/magnificpopup/jquery.magnific-popup.min.js'}) |raw }}
+<script type="text/javascript">
+$(function(){
+	$('.portfolio-isotope').imagesLoaded( function() {		
+		var container = $('.portfolio-isotope');
+		container.isotope({
+			itemSelector: '.item',layoutMode: 'masonry',transitionDuration: '0.5s'
+		});
+		$(window).resize(function () {container.isotope({ });});
+	});
+	$('.magnificPopup-gallery').magnificPopup({
+		disableOn: 400,type: 'image',gallery: {enabled: true}
+	});
+	$('.gallery').find('.btn-view').click(function(){
+		var options = "{'class_name':'col-md-4 no-padding','category':'our-projects','use_thumb':false,'pagination':false}";
+		$.ajax({	
+			url: "{{ App.createUrl('/site/reloadWidget') }}",				
+			type: "POST",
+			dataType: "JSON",
+			data: {
+				'widget_path':'application.modules.gallery.components.GalleryWidget',
+				'options': options
+			},
+			success: function(data){
+				if(data.status=='success')
+					$('.portfolio-isotope').parent().html(data.div);
+			}
+		});
+		return false;
+	});
+	$('.gallery').find('button.next').click(function(){
+		var next = $('.image-gallery').find('li.next').find('a').attr('href');
+		if(typeof(next)!='undefined')
+			window.location.href = next;
+	});
+	$('.gallery').find('button.previous').click(function(){
+		var previous = $('.image-gallery').find('li.previous').find('a').attr('href');
+		if(typeof(previous)!='undefined')
+			window.location.href = previous;
+	});
+	$('.gallery-work').find('.pagination a').click(function(){
+		var options = "{'class_name':'col-md-4 col-sm-6 col-xs-12 no-padding','category':'photo-gallery','use_thumb':false,'show_pagination':true}";
+		$.ajax({	
+			url: "{{ App.createUrl('/site/reloadWidget') }}",				
+			type: "POST",
+			dataType: "JSON",
+			data: {
+				'widget_path':'application.modules.gallery.components.GalleryWidget',
+				'options': options,
+				'href': $(this).attr('href'),
+			},
+			success: function(data){
+				if(data.status=='success')
+					$('.portfolio-isotope').parent().html(data.div);
+			}
+		});
+		return false;
+	});
+	var max_height = $('.portfolio-item-preview:first').height();
+	$('.portfolio-isotope').find('.portfolio-item-preview').each(function(){
+		$(this).attr('style','max-height:'+max_height+'px;overflow:hidden;');
+	});
+});
+</script>

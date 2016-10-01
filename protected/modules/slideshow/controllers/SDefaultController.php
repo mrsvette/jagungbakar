@@ -75,6 +75,9 @@ class SDefaultController extends EController
 		{
 			$model->attributes=$_POST['ModSlideShow'];
 			$model->slug = Post::createSlug($model->name);
+			if(is_array($model->description)){
+				$model->description = CJSON::encode($model->description);
+			}
 			$model->date_entry=date(c);
 			$model->user_entry=Yii::app()->user->id;
 			if($model->save())
@@ -104,6 +107,9 @@ class SDefaultController extends EController
 			if(isset($_POST['ModSlideShow']))
 			{
 				$model->attributes=$_POST['ModSlideShow'];
+				if(is_array($model->description)){
+					$model->description = CJSON::encode($model->description);
+				}
 				$model->date_update=date(c);
 				$model->user_update=Yii::app()->user->id;
 				if($model->save()){
@@ -183,16 +189,53 @@ class SDefaultController extends EController
 			Yii::app()->clientScript->scriptMap['jquery.js'] = false;
 			$model=new ModSlideShowItem('create');
 			$model->attributes=$_POST['ModSlideShowItem'];
+
+			//default path uploads/images/slideshow
+			$path = Extension::getConfigByModule('slideshow','slideshow_upload_path');
+			//default path uploads/images/slideshow/_thumbs
+			$path_thumbs = $path.'/_thumbs';
+
 			$model->order = $model->nextOrder;
+			if(is_array($model->caption)){
+				$model->caption = CJSON::encode($model->caption);
+			}
 			$model->date_entry=date(c);
 			$model->user_entry=Yii::app()->user->id;
-			if($model->save()){
+			if($model->validate()){
 				$file=CUploadedFile::getInstance($model,'image_path');
 				$extension = pathinfo($file->name, PATHINFO_EXTENSION);
 				if(!empty($file)){
-					$path = 'uploads/images/sliders/';
-					$model->image_path = $path.$model->slide_show_rel->slug.'-'.time().'.'.$extension;
+					list($CurWidth,$CurHeight) = getimagesize($file->tempName);
+					$basePath = Yii::getPathOfAlias('webroot').'/';
+					if(!is_dir($basePath.$path))
+						Yii::app()->file->createDir($permissions=0755, $path);
+					if(!is_dir($basePath.$path_thumbs))
+						Yii::app()->file->createDir($permissions=0755, $path_thumbs);
+
+					$fname = $model->slide_show_rel->slug.'-'.time().'.'.$extension;
+					$model->image_path = $path.'/'.$fname;
 					if($file->saveAs($model->image_path)){ //upload image
+						//resize image to ideal size
+						$force_resize = (int)Extension::getConfigByModule('slideshow','slideshow_image_force_resize');
+						if($force_resize>0){
+							$ideal_width = (int)Extension::getConfigByModule('slideshow','slideshow_image_width');
+							$ideal_height = (int)Extension::getConfigByModule('slideshow','slideshow_image_height');
+							if(($CurWidth!=$ideal_width) || ($CurHeight!=$ideal_height)){
+								$thumb2 = Yii::app()->phpThumb->create($path.'/'.$fname);
+								$percentage = ($ideal_width/$CurWidth)*100;
+								$thumb2->resizePercent($percentage);
+								$thumb2->save($path.'/'.$fname);
+								//force resize thumb
+								$thumb3 = Yii::app()->phpThumb->create($path.'/'.$fname);
+								$thumb3->adaptiveResize($ideal_width,$ideal_height);
+								$thumb3->save($path.'/'.$fname);
+							}
+						}
+						//create thumb
+						$thumb = Yii::app()->phpThumb->create($path.'/'.$fname);
+						$thumb->adaptiveResize(683,375);
+						$thumb->save($path_thumbs.'/'.$fname);
+
 						$model->save();
 					}
 				}
@@ -223,17 +266,48 @@ class SDefaultController extends EController
 			$img_lama = $model->image_path;
 			if(isset($_POST['ModSlideShowItem'])){
 				$model->attributes=$_POST['ModSlideShowItem'];
+
+				//default path uploads/images/gallery
+				$path = Extension::getConfigByModule('slideshow','slideshow_upload_path');
+				//default path uploads/images/gallery/_thumbs
+				$path_thumbs = $path.'/_thumbs';
+				if(is_array($model->caption)){
+					$model->caption = CJSON::encode($model->caption);
+				}
+
 				$model->date_update=date(c);
 				$model->user_update=Yii::app()->user->id;
 				if($model->update(array('title','caption','url','date_update','user_update'))){
 					$file=CUploadedFile::getInstance($model,'image_path');
 					$extension = pathinfo($file->name, PATHINFO_EXTENSION);
 					if(!empty($file)){
-						$path = 'uploads/images/sliders/';
-						if(file_exists($img_lama))
-							unlink($img_lama);
-						$model->image_path = $path.$model->slide_show_rel->slug.'-'.time().'.'.$extension;
+						list($CurWidth,$CurHeight) = getimagesize($file->tempName);
+						$fname = $model->slide_show_rel->slug.'-'.time().'.'.$extension;
+						$model->image_path = $path.'/'.$fname;
 						if($file->saveAs($model->image_path)){ //upload image
+							//resize image to ideal size
+							$force_resize = (int)Extension::getConfigByModule('slideshow','slideshow_image_force_resize');
+							if($force_resize>0){
+								$ideal_width = (int)Extension::getConfigByModule('slideshow','slideshow_image_width');
+								$ideal_height = (int)Extension::getConfigByModule('slideshow','slideshow_image_height');
+								if(($CurWidth!=$ideal_width) || ($CurHeight!=$ideal_height)){
+									$thumb2 = Yii::app()->phpThumb->create($path.'/'.$fname);
+									$percentage = ($ideal_width/$CurWidth)*100;
+									$thumb2->resizePercent($percentage);
+									$thumb2->save($path.'/'.$fname);
+									//force resize thumb
+									$thumb3 = Yii::app()->phpThumb->create($path.'/'.$fname);
+									$thumb3->adaptiveResize($ideal_width,$ideal_height);
+									$thumb3->save($path.'/'.$fname);
+								}
+							}
+							//create thumb
+							$thumb = Yii::app()->phpThumb->create($path.'/'.$fname);
+							$thumb->adaptiveResize(683,375);
+							$thumb->save($path_thumbs.'/'.$fname);
+							//delete the old image
+							if(file_exists($img_lama))
+								unlink($img_lama);
 							$model->save();
 						}
 					}
@@ -310,7 +384,7 @@ class SDefaultController extends EController
 	 */
 	public function loadModel($id)
 	{
-		$model=ModSlideShow::model()->findByPk($id);
+		$model = ModSlideShow::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;

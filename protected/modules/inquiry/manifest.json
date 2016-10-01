@@ -1,0 +1,53 @@
+{
+    "id":           "inquiry",
+    "name":         "Inquiry Module",
+    "description":  "Inquiry module for jagung bakar 1.1.2. <br/>Please activate email module to use this contact module.",
+    "icon":     	"icon.png",
+    "author":       "farid efendi",
+    "author_url":   "http://jagungbakar.web.id/",
+    "license":      "GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html",
+    "version":      "1.0.0",
+	"config"		: {
+			0:{
+				"title":"Admin email for inquiry form",
+				"name":"inquiry_admin_email",
+				"value":null,
+				"type":"string",
+				"placeholder":"admin@domain.com",
+			},
+			1:{
+				"title":"Save inquiry data to database",
+				"name":"inquiry_db_saved",
+				"value":1,
+				"type":"string",
+				"options":{
+					0:"No",
+					1:"Yes",
+				},
+			},
+			2:{
+				"title":"Template for inquiry email to admin",
+				"name":"inquiry_email_template",
+				"value":"mod_inquiry_admin",
+				"type":"string",
+				"placeholder":"Template inquiry email",
+			},
+			3:{
+				"title":"Template for inquiry email to client",
+				"name":"inquiry_email_template_client",
+				"value":"mod_inquiry_client",
+				"type":"string",
+				"placeholder":"Template inquiry email for client",
+			},
+			4:{
+				"title":"Redirect submission to inquiry form",
+				"name":"inquiry_thankyou_page",
+				"value":1,
+				"type":"string",
+				"options":{
+					0:"No",
+					1:"Yes",
+				},
+			},
+		}
+}

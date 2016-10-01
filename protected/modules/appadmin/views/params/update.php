@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>Yii::t('global','List').' Params', 'url'=>array('index')),
+	array('label'=>Yii::t('global','List').' Params', 'url'=>array('view')),
 	array('label'=>Yii::t('global','Create').' Params', 'url'=>array('create')),
 );
 ?>
