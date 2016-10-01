@@ -1,9 +1,9 @@
-Jagung Bakar
+Jagung Bakar App
 ============
 
-Thank you for contributing to Jagung Bakar project - a usefull cms to build custom web application.
+Thank you for contributing to Jagung Bakar App project - a usefull app to build custom web application.
 
-Jagung Bakar requires PHP 5.4 and embraces the best practices and protocols found in modern Web application development.
+Jagung Bakar App requires PHP 5.4 and embraces the best practices and protocols found in modern Web application development.
 
 DIRECTORY STRUCTURE
 -------------------
@@ -37,5 +37,7 @@ DOCUMENTATION
 
 Yii 1.1.x has a [Definitive Guide](http://www.yiiframework.com/doc/guide/) and 
 a [Class Reference](http://www.yiiframework.com/doc/api) which cover every detail of Yii.
+
+More documentation about [Jagung Bakar App](http://www.jagungbakar.web.id)
 
 ![Yii](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)
