@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Jagung Bakar 1.1.2
 
 Yii version of 1.1.17
@@ -46,4 +45,3 @@ a [Class Reference](http://www.yiiframework.com/doc/api) which cover every detai
 More documentation about [Jagung Bakar App](http://www.jagungbakar.web.id)
 
 ![Yii](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)
->>>>>>> 1.1.2
