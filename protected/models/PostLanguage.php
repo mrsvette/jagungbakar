@@ -100,8 +100,8 @@ class PostLanguage extends CActiveRecord
 	
 	public function items($title='- Pilih -')
 	{
-		$criteria=new CDbCriteria;
-		$criteria->order='id ASC';
+		$criteria = new CDbCriteria;
+		$criteria->order = 't.default DESC';
 		$models=self::model()->findAll($criteria);
 		if(!empty($title))
 			$items['']=$title;
@@ -118,6 +118,14 @@ class PostLanguage extends CActiveRecord
 		$criteria=new CDbCriteria;
 		$criteria->compare('t.default',1);
 		$model=self::model()->find($criteria);
+		return $model;
+	}
+
+	public function findOneByCode($code)
+	{
+		$criteria = new CDbCriteria;
+		$criteria->compare('t.code',$code);
+		$model = self::model()->find($criteria);
 		return $model;
 	}
 }

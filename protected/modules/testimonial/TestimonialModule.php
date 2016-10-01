@@ -53,6 +53,7 @@ class TestimonialModule extends CWebModule
 		  `client_id` int(11) DEFAULT '0',
 		  `name` varchar(128) NOT NULL,
 		  `activity` varchar(128) DEFAULT NULL,
+		  `company` varchar(256) DEFAULT NULL,
 		  `website` varchar(256) DEFAULT NULL,
 		  `comment` text NOT NULL,
 		  `rate` double DEFAULT '1',
@@ -64,7 +65,7 @@ class TestimonialModule extends CWebModule
 		  `date_entry` datetime DEFAULT NULL,
 		  `date_update` datetime DEFAULT NULL,
 		  PRIMARY KEY (`id`)
-		) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;";
+		) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
 		
 		$command = Yii::app()->db->createCommand($sql);
 		$command->execute();

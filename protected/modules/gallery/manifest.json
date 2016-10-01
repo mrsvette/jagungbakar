@@ -17,7 +17,7 @@
 			1:{
 				"title":"Max Upload File Size (bytes)",
 				"name":"gallery_max_file_size",
-				"value":5000,
+				"value":3000000,
 				"type":"number",
 				"placeholder":"Max upload file size in bytes",
 			},
@@ -27,6 +27,30 @@
 				"value":"jpg, jpeg, png",
 				"type":"string",
 				"placeholder":"Allowed file type",
+			},
+			3:{
+				"title":"Ideal image width (px)",
+				"name":"gallery_image_width",
+				"value":862,
+				"type":"number",
+				"placeholder":"862px",
+			},
+			4:{
+				"title":"Ideal image height (px)",
+				"name":"gallery_image_height",
+				"value":500,
+				"type":"number",
+				"placeholder":"500px",
+			},
+			5:{
+				"title":"Resize image to ideal size",
+				"name":"gallery_image_force_resize",
+				"value":1,
+				"type":"number",
+				"options":{
+					0:"No",
+					1:"Yes",
+				},
 			},
 		}
 }

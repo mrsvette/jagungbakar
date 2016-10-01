@@ -48,7 +48,7 @@ class SiteController extends DController
 				'users'=>array('*'),
 			),
 			array('allow',
-				'actions'=>array('tracking'),
+				'actions'=>array('tracking','reloadWidget','helper'),
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -156,7 +156,11 @@ class SiteController extends DController
 	{
 		$this->layout='column1';
 
-		$this->render('home');
+		$lang = PostLanguage::findOneByCode(Yii::app()->language);
+		
+		$homepage = array(1=>'beranda',2=>'home');
+		
+		$this->render('home',array('page'=>$homepage[$lang->id]));
 	}
 
 	public function actionSearch()
@@ -300,5 +304,33 @@ class SiteController extends DController
 			}
 			exit;
 		}
+	}
+
+	public function actionReloadWidget()
+	{
+		if(Yii::app()->request->isAjaxRequest){
+			Yii::app()->clientScript->scriptMap['jquery.js'] = false;
+
+			$options = CJSON::decode($_POST['options']);
+
+			if(isset($_POST['href'])){
+				$options['url_query'] = parse_url($_POST['href'],PHP_URL_QUERY);
+			}
+			
+			echo CJSON::encode(array(
+				'status' => 'success',
+				'div' => $this->renderPartial('reload_widget',array('widget_path'=>$_POST['widget_path'],'options'=>$options),true,true),
+			));
+			exit;
+		}
+	}
+
+	public function actionHelper($slug,$mod)
+	{
+		$this->layout='column_type4';
+
+		$widget_path = 'application.modules.'.$mod.'.components.Detail'.ucfirst($mod).'Widget';
+
+		$this->render('helper',array('slug'=>$slug,'widget_path'=>$widget_path));
 	}
 }

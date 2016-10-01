@@ -22,7 +22,8 @@ class bottomMenu extends CPortlet{
 	
 	protected function renderContent()
 	{
-		$items=Menu::items('bottom_menu');
+		$linkOptions = array();
+		$items = Menu::items('bottom_menu');
 		
 		$this->render('_bottommenu',array('items'=>$items));
 	}

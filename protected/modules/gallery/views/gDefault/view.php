@@ -58,7 +58,7 @@ $this->menu=array(
 						array(
 							'name'=>'name',
 							'type'=>'raw',
-							'value'=>'$data->name."<br/>".CHtml::image(Yii::app()->request->baseUrl."/".$data->thumb.$data->image)'
+							'value'=>'$data->name."<br/>".CHtml::image(Yii::app()->request->baseUrl."/".$data->thumb.$data->image)."<br/>".$data->image'
 						),
 						array(
 							'name'=>'category_id',

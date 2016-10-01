@@ -200,6 +200,7 @@ class MenuController extends EController
 		if(Yii::app()->request->isPostRequest)
 		{
 			$model=new MenuContent;
+			
 			echo CJSON::encode(array(
 				'status'=>'success',
 				'div'=>$this->renderPartial('_ajax',array('model'=>$model, 'lang'=>$_POST['lang'], 'link_type'=>$_POST['link_type']),true,true)

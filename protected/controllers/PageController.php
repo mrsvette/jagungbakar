@@ -115,6 +115,14 @@ class PageController extends DController
 				$criteria->with=array('content_rel');
 				$criteria->together=true;
 				$this->_model=Post::model()->find($criteria);
+				//also allow the other language to be accessed by search engine
+				if(!$this->_model instanceof Post){
+					$criteria2 = new CDbCriteria;
+					$criteria2->compare('LOWER(t.slug)',strtolower($_GET['slug']));
+					$pcontent = PostContent::model()->find($criteria2);
+					if($pcontent instanceof PostContent)
+						$this->_model = $pcontent->post_rel;
+				}
 			}
 			if($this->_model===null)
 				throw new CHttpException(404,'The requested page does not exist.');

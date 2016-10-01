@@ -1,6 +1,7 @@
 <?php if($model->type == 'revolution'): ?>
 	<?php if($model->items_count>0): ?>
-	<div class="slider">
+		<?php $this->controller->renderPartial('//site/widget/_slideshow_revolution',array('dataProvider'=>ModSlideShowItem::getItemsProvider($model->id),'widget'=>$this));?>
+	<?php /*<div class="slider">
 		<div class="fullwidthbanner-container">
 			<div class="fullwidthbanner2">
 				<ul>
@@ -32,9 +33,9 @@
 				</ul>
 			</div>
 		</div>
-	</div>
+	</div>*/?>
 	<!-- RS Lib -->
-	<link href="<?php echo $this->getAssetsUrl().'/revolution/css/settings.css';?>" rel="stylesheet" />
+	<link href="<?php echo $this->getAssetsUrl().'/revolution/css/settings.min.css';?>" rel="stylesheet" />
 	<script src="<?php echo $this->getAssetsUrl().'/revolution/js/jquery.themepunch.plugins.min.js';?>"></script>
 	<script src="<?php echo $this->getAssetsUrl().'/revolution/js/jquery.themepunch.revolution.min.js';?>"></script>
 	<script src="<?php echo $this->getAssetsUrl().'/revolution/main.js';?>"></script>

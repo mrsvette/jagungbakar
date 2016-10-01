@@ -163,14 +163,14 @@ class ModEmailTemplate extends CActiveRecord
 
     public function template_send($data)
     {
-        if(!isset($data['code'])) {
+		if(!isset($data['code'])) {
             throw new CHttpException(404,'Template code not passed');
         }
         
-        if(!isset($data['to']) && !isset($data['to_staff']) && !isset($data['to_client'])) {
-            throw CHttpException(404,'Receiver is not defined. Define to or to_client or to_staff parameter');
-        }
-        
+        /*if(!isset($data['to']) || !isset($data['to_staff']) || !isset($data['to_client'])) {
+            throw new CHttpException(404,'Receiver is not defined. Define to or to_client or to_staff parameter');
+        }*/
+       
         $vars = $data;
         //unset($vars['to'], $vars['to_client'], $vars['to_staff'], $vars['to_name'], $vars['from'], $vars['from_name']);
         //unset($vars['default_description'], $vars['default_subject'], $vars['default_template'], $vars['code']);
@@ -229,9 +229,9 @@ class ModEmailTemplate extends CActiveRecord
             throw new CHttpException(404,'Template code not passed');
         }
         
-        if(!isset($data['to']) && !isset($data['to_staff']) && !isset($data['to_client'])) {
-            throw CHttpException(404,'Receiver is not defined. Define to or to_client or to_staff parameter');
-        }
+        /*if(!isset($data['to']) && !isset($data['to_staff']) && !isset($data['to_client'])) {
+            throw new CHttpException(404,'Receiver is not defined. Define to or to_client or to_staff parameter');
+        }*/
         
         $vars = $data;
         //unset($vars['to'], $vars['to_client'], $vars['to_staff'], $vars['to_name'], $vars['from'], $vars['from_name']);

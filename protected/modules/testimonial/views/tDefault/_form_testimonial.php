@@ -26,6 +26,13 @@
 			</div>
 	</div>
 	<div class="form-group">
+			<?php echo $form->labelEx($model,'company',array('class'=>'col-md-3')); ?>
+			<div class="col-md-6">
+				<?php echo $form->textField($model,'company',array('size'=>60,'maxlength'=>128,'class'=>'form-control')); ?>
+				<?php echo $form->error($model,'company'); ?>
+			</div>
+	</div>
+	<div class="form-group">
 			<?php echo $form->labelEx($model,'website',array('class'=>'col-md-3')); ?>
 			<div class="col-md-6">
 				<?php echo $form->textField($model,'website',array('size'=>60,'maxlength'=>128,'class'=>'form-control')); ?>

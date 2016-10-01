@@ -1,0 +1,7 @@
+{% extends "/views/layouts/layout_default.html" %}
+
+{# this.beginContent('/layouts/layout_default') }}
+{% block content %}
+	{{ include(template_from_string(content)) }}
+{% endblock %}
+{{ this.endContent() #}

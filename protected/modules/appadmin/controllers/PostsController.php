@@ -105,7 +105,7 @@ class PostsController extends EController
 		
 		/* for insert image */
 		if(isset($_GET['image'])){
-			$model->content=$model->content.'<img src="'.Yii::app()->request->baseUrl.'/upload/'.$_GET['image'].''.'">';
+			$model->content = $model->content.'<img src="'.Yii::app()->request->baseUrl.'/upload/'.$_GET['image'].''.'">';
 		}
 		$this->render('create',array(
 			'model'=>$model,

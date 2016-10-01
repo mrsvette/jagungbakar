@@ -143,4 +143,19 @@ class ModSlideShowItem extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+	public function getCaptionLanguage($id=0,$lang=null)
+	{
+		if(empty($lang))
+			$lang = Yii::app()->language;
+		if($id<=0)
+			$model = $this;
+		else
+			$model = self::model()->findByPk($id);
+		$desc = CJSON::decode($model->caption,true);
+		if(is_array($desc))
+			return $desc[$lang];
+		else
+			return $model->caption;
+	}
 }

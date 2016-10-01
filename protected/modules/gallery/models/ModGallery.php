@@ -37,7 +37,7 @@ class ModGallery extends CActiveRecord
 			array('name, src, date_entry, user_entry', 'required'),
 			array('category_id, user_entry, user_update', 'numerical', 'integerOnly'=>true),
 			array('name, image, thumb, src', 'length', 'max'=>128),
-			array('description, date_update', 'safe'),
+			array('description, url, date_update', 'safe'),
 			array('image', 'file', 'safe'=>true, 'allowEmpty' => false, 'types'=>self::getAllowedTypes(), 'maxSize'=>self::getMaxSize(), 'on'=>'create'),
 			array('image', 'file', 'safe'=>true, 'allowEmpty' => true, 'types'=>self::getAllowedTypes(), 'maxSize'=>self::getMaxSize(), 'on'=>'update'),
 
@@ -141,5 +141,20 @@ class ModGallery extends CActiveRecord
 		if(empty($allowed))
 			$allowed = $default;
 		return (int)$allowed;
+	}
+
+	public function getDescriptionLanguage($id=0,$lang=null)
+	{
+		if(empty($lang))
+			$lang = Yii::app()->language;
+		if($id<=0)
+			$model = $this;
+		else
+			$model = self::model()->findByPk($id);
+		$desc = CJSON::decode($model->description,true);
+		if(is_array($desc))
+			return $desc[$lang];
+		else
+			return $model->description;
 	}
 }

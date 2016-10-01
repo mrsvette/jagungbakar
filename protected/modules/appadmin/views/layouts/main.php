@@ -34,9 +34,6 @@
 			<div class="navbar-header pull-right">
 				<?php echo CHtml::link(CHtml::image(''),array('/appadmin/default'),array('class'=>'navbar-brand'));?>
 			</div>
-			<ul class="top_links">
-				<?php $this->widget('application.modules.ecommerce.components.ECounterWidget'); ?>
-			</ul>
 			<ul class="nav navbar-nav navbar-left">
 					<li><a href="javascript:void(0)" class="slidebar-toggle"><span class="navbar_el_icon ion-navicon-round"></span></a></li>
 					<li class="user_menu">

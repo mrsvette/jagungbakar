@@ -64,6 +64,7 @@ class ExtensionsController extends EController
 			$path = Yii::getPathOfAlias('application.modules').'/'.$_POST['id'].'/';
 			$jcontent = file_get_contents($path.'manifest.json');
 			$content = CJSON::decode($jcontent);
+
 			$criteria=new CDbCriteria;
 			$criteria->compare('name',$content['id']);
 			$model = Extension::model()->find($criteria);

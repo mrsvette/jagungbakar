@@ -1,0 +1,171 @@
+<div class="container">
+	<div class="row no-header-plain">
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="row strip-big">
+		<div class="col-md-6 strip-right">
+			RECENT PROJECTS
+		</div>
+		<div class="col-md-6 strip-left">
+			{{ C.Html.link('Home',['/home'],{'class':'text-white'}) |raw }} 
+			/ {{ C.Html.link('Our Projects',['/our-projects'],{'class':'text-white'}) |raw }}
+			/ {{ model.content_rel.title |raw }}
+		</div>
+	</div>
+</div>
+	<div class="desc">
+		<div class="container">
+			<div class="row">
+				<center>
+					<div class="headline">{{ model.content_rel.title |upper }}</div>
+					<div class="strip"></div>
+				</center>
+				<div class="content">
+					<div class="title-recent">ABOUT PROJECT</div>
+					{% if model.content_rel['meta_description'] %}
+						{{ model.content_rel.meta_description |raw }}
+					{% else %}
+						{{ model.parseContent(100,false) |raw }}
+					{% endif %}
+					<div class="detail-project">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-4">
+									<p>
+										<strong>CLIENT</strong><br>
+										{{ model['client_name'] |default('-') }}
+									</p>
+									<p>
+										<strong>CATEGORY</strong><br>
+										{% if model['category_id'] %}
+										{{ model.category_rel.title |default('-') }}
+										{% else %}
+										-
+										{% endif %}
+									</p>
+									<p>
+										<strong>START DATE</strong><br>
+										{% if model['start_date'] %}
+										{{ model['start_date'] | date("d F Y") |default('-') }}
+										{% else %} - {% endif %}
+									</p>
+									<p>
+										<strong>END DATE</strong><br>
+										{{ model['end_date'] | date("d F Y") }}
+									</p>
+									<p>
+										<strong>WEBSITE</strong><br>
+										{% if model['website'] %}
+										<a href="{{ App.createAbsoluteUrl(model.website) }}" target="_blank">{{ model['website'] |default('-') }}</a>
+										{% else %}
+										-
+										{% endif %}
+									</p>
+								</div>
+								<div class="col-md-8">
+									{% if model.images_count>0 %}
+										{# do this.widget('zii.widgets.grid.CGridView', {
+											'dataProvider':model.imageProvider,
+											'hideHeader':true,
+											'columns':{
+												0:{
+													'header':'image',
+													'value':'data.src',
+													'type':'raw',
+												},
+											},
+										})
+										%}
+										{# do this.widget('zii.widgets.CListView', {
+											'dataProvider':model.imageProvider,
+											'itemView':'//site/widget/_portfolio_image',
+											'template':"{items}\n{pager}",
+										}) #}
+										{% do this.widget('application.modules.portfolio.components.ImagePortfolioWidget',{'portfolio_id':model.id}) %}
+										{# C.Html.image(App.request.baseUrl~'/'~model.firstImage.src~''~model.firstImage.image,'',{'class':'img-responsive'}) |raw #}
+									{% endif %}
+									<div class="row">
+										<div class="col-md-12 mt20">
+										<!-- need twitter username for data_via value -->
+										{% do this.widget('application.extensions.SocialShareButton.SocialShareButton', {
+												'style':'horizontal',
+												'networks': {0:'facebook',1:'googleplus',2:'linkedin',3:'twitter'},
+												'data_via':App.config.get('twitter'),
+										}) %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					{{ include(template_from_string(model.content_rel.content)) }}
+				</div>
+			</div>
+		</div>
+	</div>
+<div class="gallery-work" style="background:#f5f5f5">
+	<div class="container">
+		<center>
+		<div class="headline">
+			PHOTO GALLERY
+		</div>
+		<div class="strip">
+		</div>
+		</center>
+		<div class="image-gallery">
+			{% do this.widget(
+					'application.modules.gallery.components.GalleryWidget',
+					{
+						'class_name':'col-md-4 col-sm-6 col-xs-12 no-padding',
+						'category':'photo-gallery',
+						'use_thumb' : false,
+						'show_pagination' : true,
+					}) 
+			%}
+		</div>
+	</div>
+</div>
+<div class="call-to-action">
+	<div class="container">
+		<p>
+				Make your order at 
+			<span class="info-email">info@semargallery.com</span> and we will send you the details soon.<br>
+								Or come to our workshops and offices at Parangtritis street km.05 Yogyakarta-Indonesia and Bali-Indonesia.
+		</p>
+		<div class="box-action">
+								Let us discuss about your new traditional wooden houses,
+			<br>
+								villas in a real high qualified taste and art.
+		</div>
+		<h3>Let’s see what we can do best for you!</h3>
+	</div>
+</div>
+<div class="footer-info">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-6 no-padding">
+				<div id="googleMap" style="width:100%;height:600px;">
+						{# do this.widget('ext.gmaps.GMaps',{'lat':'-7.857337','lng':'110.355517','height':'600px'}) #}
+				</div>
+			</div>
+			<div class="col-md-6 no-padding">
+				<div class="inquiry-order">
+					<div class="headline">
+						INQUIRY AND ORDER
+					</div>
+					<div class="strip">
+					</div>
+					<p>
+					{% do this.widget('application.modules.inquiry.components.InquiryWidget') %}
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$('.bg-header').addClass('no-header');
+});
+</script>

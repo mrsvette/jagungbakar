@@ -28,6 +28,8 @@
 					<?php else: ?>
 						<?php if($config['type']=='password'):?>
 						<?php echo CHtml::passwordField($config['name'],$config['value'],array('class'=>'form-control','group'=>$config['group'],'placeholder'=>$config['placeholder'])); ?>
+						<?php elseif($config['type']=='textarea'):?>
+						<?php echo CHtml::textArea($config['name'],$config['value'],array('class'=>'form-control','group'=>$config['group'],'placeholder'=>$config['placeholder'])); ?>
 						<?php else:?>
 						<?php echo CHtml::textField($config['name'],$config['value'],array('class'=>'form-control','group'=>$config['group'],'placeholder'=>$config['placeholder'])); ?>
 						<?php endif;?>

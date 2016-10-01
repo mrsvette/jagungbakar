@@ -41,6 +41,7 @@ class ModTestimonial extends CActiveRecord
 			array('client_id, status', 'numerical', 'integerOnly'=>true),
 			array('rate', 'numerical'),
 			array('name, activity, image', 'length', 'max'=>128),
+			array('company', 'length', 'max'=>256),
 			array('website, thumb, src', 'length', 'max'=>256),
 			array('notes, date_entry, date_update', 'safe'),
 			array('image', 'file', 'safe'=>true, 'allowEmpty' => false, 'types'=>self::getAllowedTypes(), 'maxSize'=>self::getMaxSize(), 'on'=>'create'),
@@ -48,7 +49,7 @@ class ModTestimonial extends CActiveRecord
 
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, client_id, name, activity, website, comment, rate, image, thumb, src, notes, status, date_entry, date_update', 'safe', 'on'=>'search'),
+			array('id, client_id, name, activity, company, website, comment, rate, image, thumb, src, notes, status, date_entry, date_update', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,6 +74,7 @@ class ModTestimonial extends CActiveRecord
 			'client_id' => Yii::t('TestimonialModule.testimonial','Client'),
 			'name' => Yii::t('TestimonialModule.testimonial','Name'),
 			'activity' => Yii::t('TestimonialModule.testimonial','Activity'),
+			'company' => Yii::t('TestimonialModule.testimonial','Company'),
 			'website' => Yii::t('TestimonialModule.testimonial','Website'),
 			'comment' => Yii::t('TestimonialModule.testimonial','Comment'),
 			'rate' => Yii::t('TestimonialModule.testimonial','Rate'),
@@ -108,6 +110,7 @@ class ModTestimonial extends CActiveRecord
 		$criteria->compare('client_id',$this->client_id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('activity',$this->activity,true);
+		$criteria->compare('company',$this->company,true);
 		$criteria->compare('website',$this->website,true);
 		$criteria->compare('comment',$this->comment,true);
 		$criteria->compare('rate',$this->rate);

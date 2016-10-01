@@ -1,0 +1,78 @@
+<section id="portfolio-section">
+{% set i = 0 %}
+{% for data in dataProvider.data %}
+	<div class="{% if i is divisible by(2) %}recent-odd{% else %}recent-even{% endif %}">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8">
+					{% if widget.use_thumb %}
+						<img src="{{ App.request.baseUrl~'/'~data.firstImage.thumb~''~data.firstImage.image}}" alt="{{ App.config.get('site_name') }} portfolio {{ data.content_rel.title }}" class="img-left img-responsive">
+					{% else %}
+						<img src="{{ App.request.baseUrl~'/'~data.firstImage.src~''~data.firstImage.image}}" alt="{{ App.config.get('site_name') }} portfolio {{ data.content_rel.title }}" class="img-left img-responsive">
+					{% endif %}
+				</div>
+				<div class="col-md-4 text-left">
+					<div class="title-recent">
+						{{ data.content_rel.title }}
+					</div>
+					<p style="text-align:justify">
+						{{ data.parseContent(100,false) |raw }}
+					</p>
+					<p>
+						<button href="{{ data.url }}" class="btn-recent">View Details</button>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% set i = i+1 %}
+{% endfor %}
+{% if widget.pagination %}
+<center>
+	<div class="{% if not widget.show_pagination %}hide{% else %}button-view{% endif %}">
+		{% do this.widget(
+			'CLinkPager', 
+			{
+				'pages' : dataProvider.pagination,
+				'htmlOptions':{
+					'class':'pagination',
+				},
+				'header':'',
+				'firstPageLabel':false,
+				'prevPageLabel':false,
+				'nextPageLabel':false,
+				'lastPageLabel':false,
+			}) 
+		%}
+	</div>
+</center>
+{% endif %}
+</section>
+<script type="text/javascript">
+$(function(){
+	$('#portfolio-section').find('.pagination a').click(function(){
+		var pageSize = "{{ widget.pageSize }}";
+		var type = "{{ widget.type }}";
+		var options = "{'use_thumb':false,'show_pagination':true,'pageSize':"+pageSize+",'type':'"+type+"'}";
+		$.ajax({	
+			url: "{{ App.createUrl('/site/reloadWidget') }}",				
+			type: "POST",
+			dataType: "JSON",
+			data: {
+				'widget_path':'application.modules.portfolio.components.PortfolioWidget',
+				'options': options,
+				'href': $(this).attr('href'),
+			},
+			success: function(data){
+				if(data.status=='success')
+					$('#portfolio-section').parent().html(data.div);
+			}
+		});
+		return false;
+	});
+	$('section#portfolio-section').find('button.btn-recent').click(function(){
+		window.location.href = $(this).attr('href');
+		return false;
+	});
+});
+</script>

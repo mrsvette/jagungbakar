@@ -98,6 +98,12 @@ class GDefaultController extends EController
 
 		$criteria3 = new CDbCriteria;
 		$criteria3->order='id DESC';
+		if(Yii::app()->request->isAjaxRequest && isset($_GET['ModGalleryCategory'])){
+			foreach($_GET['ModGalleryCategory'] as $attr1=>$val1){
+				if(!empty($val1))
+					$criteria3->compare($attr1,$val1,true);
+			}
+		}
 
 		$categoryProvider=new CActiveDataProvider('ModGalleryCategory',array('criteria'=>$criteria3));
 
@@ -134,14 +140,17 @@ class GDefaultController extends EController
 			//default path uploads/images/gallery/_thumbs
 			$path_thumbs = $path.'/_thumbs';
 			$model->thumb = $path_thumbs.'/';
+			if(is_array($model->description)){
+				$model->description = CJSON::encode($model->description);
+			}
 			$model->date_entry = date(c);
 			$model->user_entry = Yii::app()->user->id;
 			if($model->save()){
 				$file = CUploadedFile::getInstance($model,'image');
 				$extension = pathinfo($file->name, PATHINFO_EXTENSION);
 				if(!empty($file)){
-					$exp = explode('protected',Yii::app()->basePath);
-					$basePath = $exp[0];
+					list($CurWidth,$CurHeight) = getimagesize($file->tempName);
+					$basePath = Yii::getPathOfAlias('webroot').'/';
 					if(!is_dir($basePath.$path))
 						Yii::app()->file->createDir($permissions=0755, $path);
 					if(!is_dir($basePath.$path_thumbs))
@@ -149,9 +158,25 @@ class GDefaultController extends EController
 					$fname = Tools::slug($model->name).'-'.time().'.'.$extension;
 					$model->image = $fname;
 					if($file->saveAs($path.'/'.$fname)){ //upload image
+						//resize image to ideal size
+						$force_resize = (int)Extension::getConfigByModule('gallery','gallery_image_force_resize');
+						if($force_resize>0){
+							$ideal_width = (int)Extension::getConfigByModule('gallery','gallery_image_width');
+							$ideal_height = (int)Extension::getConfigByModule('gallery','gallery_image_height');
+							if(($CurWidth!=$ideal_width) || ($CurHeight!=$ideal_height)){
+								$thumb2 = Yii::app()->phpThumb->create($path.'/'.$fname);
+								$percentage = ($ideal_width/$CurWidth)*100;
+								$thumb2->resizePercent($percentage);
+								$thumb2->save($path.'/'.$fname);
+								//force resize thumb
+								$thumb3 = Yii::app()->phpThumb->create($path.'/'.$fname);
+								$thumb3->adaptiveResize($ideal_width,$ideal_height);
+								$thumb3->save($path.'/'.$fname);
+							}
+						}
 						//create thumb
 						$thumb = Yii::app()->phpThumb->create($path.'/'.$fname);
-						$thumb->resize(250,250);
+						$thumb->adaptiveResize(430,250);
 						$thumb->save($path_thumbs.'/'.$fname);
 
 						$model->save();
@@ -184,17 +209,20 @@ class GDefaultController extends EController
 			//default path uploads/images/gallery
 			$path = Extension::getConfigByModule('gallery','gallery_upload_path');
 			$model->src = $path.'/';
+			if(is_array($model->description)){
+				$model->description = CJSON::encode($model->description);
+			}
 			//default path uploads/images/gallery/_thumbs
 			$path_thumbs = $path.'/_thumbs';
 			$model->thumb = $path_thumbs.'/';
 			$model->date_update = date(c);
 			$model->user_update = Yii::app()->user->id;
-			if($model->update(array('name','description','date_update','user_update'))){
+			if($model->update(array('name','description','url','date_update','user_update'))){
 				$file = CUploadedFile::getInstance($model,'image');
 				$extension = pathinfo($file->name, PATHINFO_EXTENSION);
 				if(!empty($file)){
-					$exp = explode('protected',Yii::app()->basePath);
-					$basePath = $exp[0];
+					list($CurWidth,$CurHeight) = getimagesize($file->tempName);
+					$basePath = Yii::getPathOfAlias('webroot').'/';
 					if(!is_dir($basePath.$path))
 						Yii::app()->file->createDir($permissions=0755, $path);
 					if(!is_dir($basePath.$path_thumbs))
@@ -202,9 +230,25 @@ class GDefaultController extends EController
 					$fname = Tools::slug($model->name).'-'.time().'.'.$extension;
 					$model->image = $fname;
 					if($file->saveAs($path.'/'.$fname)){ //upload image
+						//resize image to ideal size
+						$force_resize = (int)Extension::getConfigByModule('gallery','gallery_image_force_resize');
+						if($force_resize>0){
+							$ideal_width = (int)Extension::getConfigByModule('gallery','gallery_image_width');
+							$ideal_height = (int)Extension::getConfigByModule('gallery','gallery_image_height');
+							if(($CurWidth!=$ideal_width) || ($CurHeight!=$ideal_height)){
+								$thumb2 = Yii::app()->phpThumb->create($path.'/'.$fname);
+								$percentage = ($ideal_width/$CurWidth)*100;
+								$thumb2->resizePercent($percentage);
+								$thumb2->save($path.'/'.$fname);
+								//force resize thumb
+								$thumb3 = Yii::app()->phpThumb->create($path.'/'.$fname);
+								$thumb3->adaptiveResize($ideal_width,$ideal_height);
+								$thumb3->save($path.'/'.$fname);
+							}
+						}
 						//create thumb
 						$thumb = Yii::app()->phpThumb->create($path.'/'.$fname);
-						$thumb->resize(250,250);
+						$thumb->adaptiveResize(430,250);
 						$thumb->save($path_thumbs.'/'.$fname);
 						//delete the old image
 						if($model->image != $old_image){

@@ -186,6 +186,11 @@ class TemplatesController extends EController
 		if(isset($_GET['dump']) && $_GET['dump']){
 			$temp = ModEmailTemplate::model()->findByPk($_GET['id']);
 			$vars = ModEmailTemplate::getVars($temp);
+			if(empty($vars)){
+				$vars = array();
+				$vars['code'] = $temp->action_code;
+				$var['to'] = Extension::getConfigByModule('inquiry','inquiry_admin_email');
+			}
 			$preview = $model->template_preview($vars);
 			echo $preview;
 		}else{

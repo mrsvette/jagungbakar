@@ -38,12 +38,22 @@
 			</div>
 	</div>
 	<div class="form-group">
-			<?php echo $form->labelEx($model,'description',array('class'=>'col-md-3')); ?>
+			<?php echo $form->labelEx($model,'url',array('class'=>'col-md-3')); ?>
+			<div class="col-md-6">
+				<?php echo $form->textField($model,'url',array('size'=>60,'maxlength'=>128,'class'=>'form-control','placeholder'=>'http://www.google.com')); ?>
+				<?php echo $form->error($model,'url'); ?>
+			</div>
+	</div>
+
+	<?php foreach(CHtml::listData(PostLanguage::model()->findAll(),'code','name') as $code=>$lname):?>
+	<div class="form-group">
+			<label class="col-md-3"><?php echo $model->getAttributeLabel('description');?> (<?php echo $lname;?>)</label>
 			<div class="col-md-9">
-				<?php echo $form->textArea($model,'description',array('rows'=>3,'class'=>'form-control')); ?>
+				<?php echo $form->textArea($model,'description['.$code.']',array('rows'=>3,'class'=>'form-control','value'=>$model->getDescriptionLanguage(0,$code))); ?>
 				<?php echo $form->error($model,'description'); ?>
 			</div>
 	</div>
+	<?php endforeach;?>
 
 	<div class="form-group buttons col-md-12">
 		<?php 
@@ -54,7 +64,8 @@
 						'style'=>'width:100px',
 						'class'=>'btn btn-success',
 						'id'=>'gallery-submit-btn',
-						'href'=>CHtml::normalizeUrl(array('gDefault/create'))
+						'href'=>CHtml::normalizeUrl(array('gDefault/create')),
+						'isnewrecord'=>1
 					)
 				);
 			else:
@@ -64,7 +75,8 @@
 						'style'=>'width:100px',
 						'class'=>'btn btn-success',
 						'id'=>'gallery-submit-btn',
-						'href'=>CHtml::normalizeUrl(array('gDefault/update','id'=>$model->id))
+						'href'=>CHtml::normalizeUrl(array('gDefault/update','id'=>$model->id)),
+						'isnewrecord'=>0
 					)
 				);
 			endif;
@@ -76,6 +88,7 @@
 $(function(){
 	$('#gallery-submit-btn').click(function(){
 		var formData = new FormData($('form[id="gallery-form"]')[0]);
+		var isnewrecord = $(this).attr('isnewrecord');
 		$.ajax({
 			beforeSend: function() { Loading.show(); },
 			complete: function() { Loading.hide(); },
@@ -88,9 +101,11 @@ $(function(){
 				if(data.status=="success"){
 					$("#gallery-message").html(data.div);
 					$("#gallery-message").parent().removeClass("hide");
-					$.fn.yiiGridView.update('gallery-grid', {
-						data: $(this).serialize()
-					})
+					if(isnewrecord>0){
+						$.fn.yiiGridView.update('gallery-grid', {
+							data: $(this).serialize()
+						});
+					}
 					return false;
 				}else{
 					$("form[id='gallery-form']").parent().html(data.div);

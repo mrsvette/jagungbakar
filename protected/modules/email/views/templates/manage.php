@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>Yii::t('global','List').' '.Yii::t('EmailModule.template','Email Template'), 'url'=>array('view')),
-	array('label'=>Yii::t('global','Create').' '.Yii::t('EmailModule.template','Email Template'), 'url'=>'#new', 'linkOptions'=>array('data-toggle'=>'tab')),
+	array('label'=>Yii::t('global','Create').' '.Yii::t('EmailModule.template','Email Template'), 'url'=>array('view','t'=>'#new')),
 );
 ?>
 <style>

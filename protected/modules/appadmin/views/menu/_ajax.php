@@ -6,6 +6,6 @@
 <?php elseif($link_type==2):?>
 <div class="form-group col-md-6">
 	<label>&nbsp;</label>
-	<?php echo CHtml::activeDropDownList($model,'page['.$lang.']',Post::listItems(),array('class'=>'form-control')); ?>
+	<?php echo CHtml::activeDropDownList($model,'page['.$lang.']',Post::listItems(null,$lang),array('class'=>'form-control')); ?>
 </div>
 <?php endif;?>
