@@ -1,110 +1,114 @@
 <div class="container">
-	<div class="row no-header-plain"></div>
+    <div class="row no-header-plain"></div>
 </div>
 <div class="container-fluid">
-	<div class="row strip-big">
-		<div class="col-md-6 strip-right">
-			OUR PROJECTS
-		</div>
-		<div class="col-md-6 strip-left"> 
-			Home / Our Projects / {{ model.title }}
-		</div>
-	</div>
+    <div class="row strip-big">
+        <div class="col-md-6 strip-right">
+            OUR PROJECTS
+        </div>
+        <div class="col-md-6 strip-left">
+            Home / Our Projects / {{ model.title }}
+        </div>
+    </div>
 </div>
 <div class="container-fluid">
-	<div class="row about-work">
-		<center>
-			<div class="headline">{{ model.title |upper }}</div>
-			<div class="strip"></div>
-		</center>
-	</div>
+    <div class="row about-work">
+        <center>
+            <div class="headline">{{ model.title |upper }}</div>
+            <div class="strip"></div>
+        </center>
+    </div>
 </div>
 
 <section id="portfolio-section">
-{% set i = 0 %}
-{% for data in dataProvider.data %}
-	<div class="{% if i is divisible by(2) %}recent-odd{% else %}recent-even{% endif %}">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-8">
-					{% if widget.use_thumb %}
-						<img src="{{ App.request.baseUrl~'/'~data.firstImage.thumb~''~data.firstImage.image}}" alt="{{ App.config.get('site_name') }} portfolio {{ data.content_rel.title }}" class="img-left img-responsive">
-					{% else %}
-						<img src="{{ App.request.baseUrl~'/'~data.firstImage.src~''~data.firstImage.image}}" alt="{{ App.config.get('site_name') }} portfolio {{ data.content_rel.title }}" class="img-left img-responsive">
-					{% endif %}
-				</div>
-				<div class="col-md-4 text-left">
-					<div class="title-recent">
-						{{ data.content_rel.title }}
-					</div>
-					<p style="text-align:justify">
-						{{ data.parseContent(100,false) |raw }}
-					</p>
-					<p>
-						<button href="{{ data.url }}" class="btn-recent">View Details</button>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-	{% set i = i+1 %}
-{% endfor %}
-{% if widget.pagination %}
-<center>
-	<div class="{% if not widget.show_pagination %}hide{% else %}button-view{% endif %}">
-		{% do this.widget(
-			'CLinkPager', 
-			{
-				'pages' : dataProvider.pagination,
-				'htmlOptions':{
-					'class':'pagination',
-				},
-				'header':'',
-			}) 
-		%}
-	</div>
-</center>
-{% endif %}
+    {% set i = 0 %}
+    {% for data in dataProvider.data %}
+    <div class="{% if i is divisible by(2) %}recent-odd{% else %}recent-even{% endif %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    {% if widget.use_thumb %}
+                    <img src="{{ App.request.baseUrl~'/'~data.firstImage.thumb~''~data.firstImage.image}}"
+                         alt="{{ App.config.get('site_name') }} portfolio {{ data.content_rel.title }}"
+                         class="img-left img-responsive">
+                    {% else %}
+                    <img src="{{ App.request.baseUrl~'/'~data.firstImage.src~''~data.firstImage.image}}"
+                         alt="{{ App.config.get('site_name') }} portfolio {{ data.content_rel.title }}"
+                         class="img-left img-responsive">
+                    {% endif %}
+                </div>
+                <div class="col-md-4 text-left">
+                    <div class="title-recent">
+                        {{ data.content_rel.title }}
+                    </div>
+                    <p style="text-align:justify">
+                        {{ data.parseContent(100,false) |raw }}
+                    </p>
+                    <p>
+                        <button href="{{ data.url }}" class="btn-recent">View Details</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% set i = i+1 %}
+    {% endfor %}
+    {% if widget.pagination %}
+    <center>
+        <div class="{% if not widget.show_pagination %}hide{% else %}button-view{% endif %}">
+            {% do this.widget(
+            'CLinkPager',
+            {
+            'pages' : dataProvider.pagination,
+            'htmlOptions':{
+            'class':'pagination',
+            },
+            'header':'',
+            })
+            %}
+        </div>
+    </center>
+    {% endif %}
 </section>
 <div class="call-to-action">
-	<div class="container">
-		<p>
-			Make your order at 
-			<span class="info-email">info@semargallery.com</span> and we will send you the details soon.<br>
-				Or come to our workshops and offices at Parangtritis street km.05 Yogyakarta-Indonesia and Bali-Indonesia.
-		</p>
-		<div class="box-action">
-				Let us discuss about your new traditional wooden houses,
-			<br>
-				villas in a real high qualified taste and art.
-		</div>
-		<h3>Let’s see what we can do best for you!</h3>
-	</div>
+    <div class="container">
+        <p>
+            Maecenas at libero at massa lacinia
+            <span class="info-email">info@jagungbakar.web.id</span> and we will send you the details soon.<br>
+            Duis non tincidunt felis, vitae feugiat quam. Class aptent taciti sociosqu ad litora torquent per conubia
+            nostra, per inceptos himenaeos.
+        </p>
+        <div class="box-action">
+            Donec tellus leo, sodales at nulla vitae, commodo aliquam justo. Quisque dolor nisl, luctus ac felis et,
+            mollis pulvinar metus.
+        </div>
+        <h3>Aenean vestibulum libero ac dolor dignissim vulputate!</h3>
+    </div>
 </div>
 <script type="text/javascript">
-$(function(){
-	$('#portfolio-section').find('.pagination a').click(function(){
-		var pageSize = "{{ widget.pageSize }}";
-		var options = "{'use_thumb':false,'show_pagination':true,'pageSize':"+pageSize+"}";
-		$.ajax({	
-			url: "{{ App.createUrl('/site/reloadWidget') }}",				
-			type: "POST",
-			dataType: "JSON",
-			data: {
-				'widget_path':'application.modules.portfolio.components.PortfolioWidget',
-				'options': options,
-				'href': $(this).attr('href'),
-			},
-			success: function(data){
-				if(data.status=='success')
-					$('#portfolio-section').parent().html(data.div);
-			}
-		});
-		return false;
-	});
-	$('#portfolio-section').find('button.btn-recent').click(function(){
-		window.location.href = $(this).attr('href');
-		return false;
-	});
-});
+    $(function () {
+        $('#portfolio-section').find('.pagination a').click(function () {
+            var pageSize = "{{ widget.pageSize }}";
+            var options = "{'use_thumb':false,'show_pagination':true,'pageSize':" + pageSize + "}";
+            $.ajax({
+                url: "{{ App.createUrl('/site/reloadWidget') }}",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    'widget_path': 'application.modules.portfolio.components.PortfolioWidget',
+                    'options': options,
+                    'href': $(this).attr('href'),
+                },
+                success: function (data) {
+                    if (data.status == 'success')
+                        $('#portfolio-section').parent().html(data.div);
+                }
+            });
+            return false;
+        });
+        $('#portfolio-section').find('button.btn-recent').click(function () {
+            window.location.href = $(this).attr('href');
+            return false;
+        });
+    });
 </script>

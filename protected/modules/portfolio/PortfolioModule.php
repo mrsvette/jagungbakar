@@ -85,7 +85,7 @@ class PortfolioModule extends CWebModule
         return array(
             'appearance'=> array(
                 array(
-					'label'=>'<span class="side_icon ion-ios7-folder-outline"></span> Klien',
+					'label'=>'<span class="side_icon ion-ios7-folder-outline"></span> Portfolio',
 					'url'=>array('/portfolio/pDefault/view'), 
 					'visible'=>Extension::getIsInstalled(array('id'=>'portfolio'))
 				),
