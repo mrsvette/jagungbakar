@@ -8,3 +8,4 @@ protected/config/main.php
 *.sql
 *.sql.gz
 .idea/*
+!protected/vendor/*
