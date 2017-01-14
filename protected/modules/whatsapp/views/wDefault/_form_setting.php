@@ -9,13 +9,13 @@
 
 	<?php echo $form->errorSummary($model,null,null,array('class'=>'alert alert-warning alert-block alert-dismissable fade in')); ?>
 	
-	<h3 class="no-margin"><?php echo Yii::t('InquiryModule.inquiry','Configure inquiry options');?></h3>
-	<p class="mt10 mb10"><?php echo Yii::t('InquiryModule.inquiry','Inquiry need several configuration.');?></p>
+	<h3 class="no-margin"><?php echo Yii::t('WhatsappModule.whatsapp','Configure whatsapp options');?></h3>
+	<p class="mt10 mb10"><?php echo Yii::t('WhatsappModule.whatsapp','Whatsapp need several configuration.');?></p>
 
 	<?php if($model['configs']): ?>
 	<?php foreach($model['configs'] as $id=>$config):?>
 	<div class="form-group row <?php if($config['hidden']):?>hide<?php endif;?>">
-		<label class="col-md-3"><?php echo Yii::t('InquiryModule.inquiry',$config['title']);?></label>
+		<label class="col-md-3"><?php echo Yii::t('WhatsappModule.whatsapp',$config['title']);?></label>
 		<div class="col-md-4">
 			<?php if(isset($config['options'])): ?>
 			<?php echo CHtml::dropDownList($config['name'],$config['value'],$config['options'],array('class'=>'form-control','group'=>$config['group'],'toggle'=>$config['toggle'],'show'=>$config['show'])); ?>
@@ -35,7 +35,7 @@
 
 	<div class="form-group buttons col-md-12">
 		<?php 
-		echo CHtml::ajaxSubmitButton(Yii::t('global', 'Save'),CHtml::normalizeUrl(array('/inquiry/iDefault/setting')),array('dataType'=>'json','success'=>'js:
+		echo CHtml::ajaxSubmitButton(Yii::t('global', 'Save'),CHtml::normalizeUrl(array('/whatsapp/wDefault/setting')),array('dataType'=>'json','success'=>'js:
 				function(data){
 					if(data.status=="success"){
 						$("#message").html(data.div);

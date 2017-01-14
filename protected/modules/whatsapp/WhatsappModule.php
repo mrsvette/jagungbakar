@@ -49,12 +49,8 @@ class WhatsappModule extends CWebModule
         $sql = "
 		CREATE TABLE IF NOT EXISTS `tbl_mod_whatsapp` (
 		  `id` int(11) NOT NULL AUTO_INCREMENT,
-		  `name` varchar(128) NOT NULL,
-		  `email` varchar(128) NOT NULL,
 		  `phone` varchar(64) NOT NULL,
-		  `address` text,
-		  `website` varchar(128) DEFAULT NULL,
-		  `description` text NOT NULL,
+		  `message` text,
 		  `status` int(11) DEFAULT '0' COMMENT '0=unread, 1=read',
 		  `date_entry` datetime NOT NULL,
 		  `date_update` datetime DEFAULT NULL,
@@ -68,11 +64,11 @@ class WhatsappModule extends CWebModule
 
     public function fetchNavigation()
     {
-        Yii::import('application.modules.whatsapp.models.Modwhatsapp');
+        Yii::import('application.modules.whatsapp.models.ModWhatsapp');
         $badge = '';
-        $count = Modwhatsapp::counter(0);
+        $count = ModWhatsapp::counter(0);
         if ($count > 0)
-            $badge .= ' <span class="badge badge-primary">' . Modwhatsapp::counter(0) . '</span>';
+            $badge .= ' <span class="badge badge-primary">' . ModWhatsapp::counter(0) . '</span>';
         return array(
             'manage' => array(
                 array(

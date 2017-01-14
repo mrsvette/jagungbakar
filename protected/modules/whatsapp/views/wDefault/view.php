@@ -1,34 +1,34 @@
 <?php
 $this->breadcrumbs=array(
 	ucfirst(Yii::app()->controller->module->id)=>array('/'.Yii::app()->controller->module->id.'/'),
-	Yii::t('global','Manage').' '.Yii::t('InquiryModule.inquiry','Inquiry'),
+	Yii::t('global','Manage').' '.Yii::t('WhatsappModule.whatsapp','Whatsapp'),
 );
 
 $this->menu=array(
-	array('label'=>Yii::t('global','List').' '.Yii::t('InquiryModule.inquiry','Inquiry'), 'url'=>array('view')),
-	array('label'=>Yii::t('global','Create').' '.Yii::t('InquiryModule.inquiry','Inquiry'), 'url'=>'#new', 'linkOptions'=>array('data-toggle'=>'tab')),
+	array('label'=>Yii::t('global','List').' '.Yii::t('WhatsappModule.whatsapp','Whatsapp'), 'url'=>array('view')),
+	array('label'=>Yii::t('global','Create').' '.Yii::t('WhatsappModule.whatsapp','Whatsapp'), 'url'=>'#new', 'linkOptions'=>array('data-toggle'=>'tab')),
 );
 ?>
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h4 class="panel-title"><?php echo Yii::t('global','Manage').' '.Yii::t('InquiryModule.inquiry','Inquiry');?></h4>
+		<h4 class="panel-title"><?php echo Yii::t('global','Manage').' '.Yii::t('WhatsappModule.whatsapp','Whatsapp');?></h4>
 	</div>
 	<div class="panel-body">
 		<ul class="nav nav-tabs">
 			<li class="active">
 				<a data-toggle="tab" href="#general">
-					<strong><?php echo Yii::t('InquiryModule.inquiry','Inquiry');?></strong>
+					<strong><?php echo Yii::t('global','Manage').' '.Yii::t('WhatsappModule.whatsapp','Messages');?></strong>
 				</a>
 			</li>
 			<li class="">
 				<a data-toggle="tab" href="#new">
-					<strong><?php echo Yii::t('global','Create').' '.Yii::t('InquiryModule.inquiry','Inquiry');?></strong>
+					<strong><?php echo Yii::t('global','Create').' '.Yii::t('WhatsappModule.whatsapp','Message');?></strong>
 				</a>
 			</li>
 			<li class="">
 				<a data-toggle="tab" href="#setting">
-					<strong><?php echo Yii::t('InquiryModule.inquiry','Inquiry Settings');?></strong>
+					<strong><?php echo Yii::t('WhatsappModule.whatsapp','Whatsapp Settings');?></strong>
 				</a>
 			</li>
 		</ul>
@@ -39,21 +39,11 @@ $this->menu=array(
 					'dataProvider'=>$dataProvider,
 					'filter'=>$dataProvider->model,
 					'itemsCssClass'=>'table table-striped mb30',
-					'id'=>'inquiry-grid',
+					'id'=>'whatsapp-grid',
 					'afterAjaxUpdate' => 'reloadGrid',
 					'columns'=>array(
 						array(
 							'value'=>'$this->grid->dataProvider->getPagination()->getOffset()+$row+1',
-						),
-						array(
-							'name'=>'name',
-							'type'=>'raw',
-							'value'=>'($data->status==0)? "<b>".$data->name."</b>":$data->name',
-						),
-						array(
-							'name'=>'email',
-							'type'=>'raw',
-							'value'=>'($data->status==0)? "<b>".$data->email."</b>":$data->email',
 						),
 						array(
 							'name'=>'phone',
@@ -61,9 +51,9 @@ $this->menu=array(
 							'value'=>'($data->status==0)? "<b>".$data->phone."</b>":$data->phone',
 						),
 						array(
-							'name'=>'address',
+							'name'=>'message',
 							'type'=>'raw',
-							'value'=>'($data->status==0)? "<b>".$data->address."</b>":$data->address',
+							'value'=>'($data->status==0)? "<b>".$data->message."</b>":$data->message',
 						),
 						array(
 							'name'=>'date_entry',
@@ -79,14 +69,14 @@ $this->menu=array(
 											'label'=>'<i class="fa fa-search"></i>',
 											'imageUrl'=>false,
 											'options'=>array('title'=>'Detail'),
-											'url'=>'Yii::app()->createUrl(\'inquiry/iDefault/detail\',array(\'id\'=>$data->id))',
+											'url'=>'Yii::app()->createUrl(\'whatsapp/wDefault/detail\',array(\'id\'=>$data->id))',
 											'visible'=>'Rbac::ruleAccess(\'read_p\')',
 										),
 									'view'=>array(
 											'label'=>'<i class="fa fa-pencil"></i>',
 											'imageUrl'=>false,
 											'options'=>array('title'=>'View'),
-											'url'=>'Yii::app()->createUrl(\'inquiry/iDefault/manage\',array(\'id\'=>$data->id))',
+											'url'=>'Yii::app()->createUrl(\'whatsapp/wDefault/manage\',array(\'id\'=>$data->id))',
 											'visible'=>'Rbac::ruleAccess(\'read_p\')',
 										),
 									'delete'=>array(
@@ -103,7 +93,7 @@ $this->menu=array(
 				</div>
 			</div>
 			<div id="new" class="tab-pane">
-				<?php echo $this->renderPartial('_form_inquiry',array('model'=>new ModInquiry('create')));?>
+				<?php echo $this->renderPartial('_form_whatsapp',array('model'=>new ModWhatsapp('create')));?>
 			</div>
 			<div id="setting" class="tab-pane">
 				<?php echo $this->renderPartial('_form_setting',array('model'=>$setting));?>
