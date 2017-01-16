@@ -130,25 +130,31 @@ class WDefaultController extends EController
             $model = new ModWhatsapp('create');
             $model->attributes = $_POST['ModWhatsapp'];
             $model->date_entry = date(c);
-            $mail_template = Extension::getConfigByModule('whatsapp', 'whatsapp_email_template');
-            $whatsapp_db_saved = Extension::getConfigByModule('whatsapp', 'whatsapp_db_saved');
-            $whatsapp_admin_email = Extension::getConfigByModule('whatsapp', 'whatsapp_admin_email');
+            $whatsapp_phone_number = Extension::getConfigByModule('whatsapp', 'whatsapp_phone_number');
+            $whatsapp_password = Extension::getConfigByModule('whatsapp', 'whatsapp_password');
             if ($whatsapp_db_saved)
                 $exc = $model->save();
             else
                 $exc = $model->validate();
             if ($exc) {
-                //send mail
-                Yii::import('application.modules.email.models.*');
-                $data = $model->attributes;
-                $email = array();
-                $email = array_merge($email, $data);
-                $email['to'] = $whatsapp_admin_email;
-                $email['to_name'] = Yii::app()->config->get('site_name');
-                $email['code'] = $mail_template;
-
-                $template = new ModEmailTemplate;
-                $send = $template->template_send($email);
+                $config['Farid'] = [
+                    'fromNumber'    => $whatsapp_phone_number,
+                    'nick'          => 'FARID',
+                    'waPassword'    => $whatsapp_password,
+                    //'email'         => 'testemail@gmail.com',
+                    //'emailPassword' => 'gmailpassword',
+                ];
+                $wa = new CWhatsapp($config);
+                $wa->number = $whatsapp_phone_number;
+                $wa->nick = 'Jagung Bakar';
+                $wa->messages = $model->message;
+                $wa->password = $whatsapp_password;
+                $wa->inputs = array(
+                    'to' => array('6281325159948'),
+                    'message' => $model->message
+                );
+                //var_dump($wa);exit;
+                var_dump($wa->sendMessage());exit;
 
                 echo CJSON::encode(array(
                     'status' => 'success',
@@ -196,6 +202,65 @@ class WDefaultController extends EController
             if (Yii::app()->request->isPostRequest) {
                 $save_configs = $model->saveConfig($_POST);
                 if ($save_configs) {
+                    if($_POST['whatsapp_request_type'] == 0) {
+                        // Create an instance of Registration.
+                        $debug = true;
+                        $username = $_POST['whatsapp_phone_number'];
+                        $w = new Registration($username, $debug);
+                        $w->codeRequest('sms');
+                        $w->codeRegister('123456');
+                    }elseif ($_POST['whatsapp_request_type'] == 1){
+                        $debug = false;
+                        $username = $_POST['whatsapp_phone_number'];
+                        $code = $_POST['whatsapp_verification_number']; // Received Verification Code
+
+                        if(empty($username)){
+                            echo CJSON::encode(array(
+                                'status' => 'failed',
+                                'div' => "Mobile Number can't be Empty"
+                            ));
+                            exit(0);
+                        }
+                        if (!preg_match('!^\d+$!', $username))
+                        {
+                            echo CJSON::encode(array(
+                                'status' => 'failed',
+                                'div' => "Wrong number. Do NOT use '+' or '00' before your number\n"
+                            ));
+                            exit(0);
+                        }
+                        $identityExists = file_exists(Yii::getPathOfAlias('application.modules.'.$this->module->id.'.components.wadata').'/id.'.$username.'.dat');
+
+                        $w = new Registration($username, $debug);
+
+                        if (!$identityExists)
+                        {
+                            echo CJSON::encode(array(
+                                'status' => 'failed',
+                                'div' => 'Identity Doesn\'t Exists'
+                            ));
+                            exit(0);
+                        }
+                        else
+                        {
+
+                            try {
+                                $result = $w->codeRegister($code);
+                                //echo "Your username is: ".$result->login."<BR>";
+                                //echo "Your password is: ".$result->pw."<BR>";
+                                $_POST['whatsapp_password'] = $result->pw;
+                                $model->saveConfig($_POST);
+                            } catch(Exception $e) {
+                                echo CJSON::encode(array(
+                                    'status' => 'failed',
+                                    'div' => $e->getMessage()
+                                ));
+                                exit(0);
+                            }
+
+                        }
+                    }
+
                     echo CJSON::encode(array(
                         'status' => 'success',
                         'div' => Yii::t('global', 'Your config has been successfully saved.')
@@ -220,4 +285,6 @@ class WDefaultController extends EController
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }
+
+
 }

@@ -39,5 +39,16 @@
         1: "Yes",
       },
     },
+    4: {
+      "title": "Whatsapp request type",
+      "name": "whatsapp_request_type",
+      "value": 2,
+      "type": "string",
+      "options": {
+        0: "Register",
+        1: "Get Password",
+        2: "Update Data",
+      },
+    },
   }
 }
